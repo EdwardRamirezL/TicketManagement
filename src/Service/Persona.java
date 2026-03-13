@@ -11,4 +11,11 @@ package Service;
 public abstract class Persona {
     private String cedula; 
     private String nombre;
+
+    public Persona(String cedula, String nombre) {
+        this.cedula = cedula;
+        this.nombre = nombre;
+    }
+    
+    
 }
