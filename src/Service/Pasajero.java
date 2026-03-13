@@ -14,4 +14,5 @@ public abstract class Pasajero extends Persona {
         super(cedula, nombre);
     }
     
+    public abstract double calcularDescuento();
 }
