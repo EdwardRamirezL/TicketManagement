@@ -9,5 +9,9 @@ package Service;
  * @author dimas
  */
 public abstract class Pasajero extends Persona {
+
+    public Pasajero(String cedula, String nombre) {
+        super(cedula, nombre);
+    }
     
 }
