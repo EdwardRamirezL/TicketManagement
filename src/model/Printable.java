@@ -8,7 +8,9 @@ package model;
  *
  * @author ASUS
  */
-public interface Imprimible {
-     void imprimirDetalle();
-    
+
+
+public interface Printable {
+    void printDetails();
+
 }

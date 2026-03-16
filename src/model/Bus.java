@@ -9,23 +9,26 @@ package model;
  * @author ASUS
  */
 
-public class Bus extends Vehiculo {
 
-    public Bus(String placa, String ruta) {
-        super(placa, ruta);
-        this.capacidadMaxima = 45;
-        this.tarifaBase = 15000;
+public class Bus extends Vehicle {
+
+    public Bus(String plate, String route) {
+
+        super(plate, route);
+        this.maxCapacity = 45;
+        this.baseFare = 15000;
+
     }
 
     @Override
-    public void imprimirDetalle() {
+    public void printDetails() {
 
-        System.out.println("Tipo: Bus");
-        System.out.println("Placa: " + placa);
-        System.out.println("Ruta: " + ruta);
-        System.out.println("Capacidad: " + capacidadMaxima);
-        System.out.println("Cupos disponibles: " + cuposDisponibles());
-        System.out.println("Tarifa: " + tarifaBase);
+        System.out.println("Type: Bus");
+        System.out.println("Plate: " + plate);
+        System.out.println("Route: " + route);
+        System.out.println("Capacity: " + maxCapacity);
+        System.out.println("Available seats: " + availableSeats());
+        System.out.println("Fare: $" + baseFare);
 
     }
 

@@ -10,15 +10,15 @@ package service;
  */
 
 
-import dao.VehiculoDAO;
-import model.Vehiculo;
+import dao.VehicleDAO;
+import model.Vehicle;
 
 import java.util.ArrayList;
 
 public class VehiculoService {
 
-    private VehiculoDAO dao = new VehiculoDAO();
-    private ArrayList<Vehiculo> listaVehiculos;
+    private VehicleDAO dao = new VehicleDAO();
+    private ArrayList<Vehicle> listaVehiculos;
 
     public VehiculoService() {
 
@@ -26,9 +26,9 @@ public class VehiculoService {
 
     }
 
-    public void registrarVehiculo(Vehiculo v){
+    public void registrarVehiculo(Vehicle v){
 
-        for(Vehiculo veh : listaVehiculos){
+        for(Vehicle veh : listaVehiculos){
 
             if(veh.getPlaca().equalsIgnoreCase(v.getPlaca())){
 
@@ -48,7 +48,7 @@ public class VehiculoService {
 
     public void listarVehiculos(){
 
-        for(Vehiculo v : listaVehiculos){
+        for(Vehicle v : listaVehiculos){
 
             v.imprimirDetalle();
             System.out.println("------------------------");
@@ -57,9 +57,9 @@ public class VehiculoService {
 
     }
 
-    public Vehiculo buscarVehiculo(String placa){
+    public Vehicle buscarVehiculo(String placa){
 
-        for(Vehiculo v : listaVehiculos){
+        for(Vehicle v : listaVehiculos){
 
             if(v.getPlaca().equalsIgnoreCase(placa))
                 return v;

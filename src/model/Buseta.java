@@ -9,25 +9,28 @@ package model;
  * @author ASUS
  */
 
-public class Buseta extends Vehiculo {
+public class Buseta extends Vehicle {
 
-    public Buseta(String placa, String ruta) {
-        super(placa, ruta);
-        this.capacidadMaxima = 19;
-        this.tarifaBase = 8000;
+    public Buseta(String plate, String route) {
+
+        super(plate, route);
+        this.maxCapacity = 19;
+        this.baseFare = 8000;
+
     }
 
     @Override
-    public void imprimirDetalle() {
+    public void printDetails() {
 
-        System.out.println("Tipo: Buseta");
-        System.out.println("Placa: " + placa);
-        System.out.println("Ruta: " + ruta);
-        System.out.println("Capacidad: " + capacidadMaxima);
-        System.out.println("Cupos disponibles: " + cuposDisponibles());
-        System.out.println("Tarifa: " + tarifaBase);
+        System.out.println("Type: Buseta");
+        System.out.println("Plate: " + plate);
+        System.out.println("Route: " + route);
+        System.out.println("Capacity: " + maxCapacity);
+        System.out.println("Available seats: " + availableSeats());
+        System.out.println("Fare: $" + baseFare);
 
     }
 
 }
+
 

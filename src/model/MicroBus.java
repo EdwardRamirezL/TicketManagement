@@ -10,24 +10,25 @@ package model;
  */
 
 
+public class MicroBus extends Vehicle {
 
-public class MicroBus extends Vehiculo {
+    public MicroBus(String plate, String route) {
 
-    public MicroBus(String placa, String ruta) {
-        super(placa, ruta);
-        this.capacidadMaxima = 25;
-        this.tarifaBase = 10000;
+        super(plate, route);
+        this.maxCapacity = 25;
+        this.baseFare = 10000;
+
     }
 
     @Override
-    public void imprimirDetalle() {
+    public void printDetails() {
 
-        System.out.println("Tipo: MicroBus");
-        System.out.println("Placa: " + placa);
-        System.out.println("Ruta: " + ruta);
-        System.out.println("Capacidad: " + capacidadMaxima);
-        System.out.println("Cupos disponibles: " + cuposDisponibles());
-        System.out.println("Tarifa: " + tarifaBase);
+        System.out.println("Type: MicroBus");
+        System.out.println("Plate: " + plate);
+        System.out.println("Route: " + route);
+        System.out.println("Capacity: " + maxCapacity);
+        System.out.println("Available seats: " + availableSeats());
+        System.out.println("Fare: $" + baseFare);
 
     }
 
