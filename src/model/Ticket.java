@@ -26,6 +26,30 @@ public class Ticket implements Printable, Calculable{
         this.origen = origen;
         this.destino = destino;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public Pasajero getPasajero() {
+        return pasajero;
+    }
+
+    public Vehicle getVehiculo() {
+        return vehiculo;
+    }
+
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
+    }
+
+    public String getOrigen() {
+        return origen;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
     
     
     
