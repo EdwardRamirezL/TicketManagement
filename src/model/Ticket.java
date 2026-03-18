@@ -58,4 +58,18 @@ public class Ticket implements Printable, Calculable{
         return tarifaBase * (1 - descuento);
     }
     
+    @Override
+    public void printDetails(){
+        System.out.println("-----TICKET-----"); 
+        System.out.println("ID: " + id); 
+        System.out.println("Pasajero: " + pasajero.getNombre() + " (" + pasajero.getCedula() + ")");
+        System.out.println("Vehiculo: " + vehiculo.getPlate() + " - " + vehiculo.getClass().getSimpleName());
+        System.out.println("Ruta: " + vehiculo.getRoute());
+        System.out.println("Fecha/Hora: " + fechaHora);
+        System.out.println("Origen : " + origen + "| Destino: " + destino);
+        System.out.println(" Valor total: $%.2f%n" + calcularTotal());
+        System.out.println("-----------------");
+        
+    }
+    
 }
