@@ -30,4 +30,31 @@ try(BufferedWriter bw = new BufferedWriter(new FileWriter(archivo, true))){
   e.printStackTrace();
 }
 }
+
+public ArrayList<Pasajero> listar(){
+    ArrayList<Pasajero> pasajeros = new ArrayList<>();
+    try(BufferedReader br = new BufferedReader(new FileReader(archivo))){
+        String linea; 
+        while((linea = br.readLine())!= null){
+            String[] datos = linea.split(";");
+            String cedula = datos[0]; 
+            String nombre = datos[1]; 
+            String tipo = datos[2]; 
+            switch(tipo){
+                case "PasajeroRegular": 
+                    pasajeros.add(new PasajeroRegular(cedula, nombre));
+                    break;
+                case "PasajeroEstudiante": 
+                    pasajeros.add(new PasajeroEstudiante(cedula, nombre)); 
+                    break; 
+                case "PasajeroAdultoMayor": 
+                    pasajeros.add(new PasajeroAdultoMayor(cedula, nombre)); 
+                    break; 
+            }
+        }
+    }catch(IOException e){
+        e.printStackTrace();
+    }
+    return pasajeros; 
+}
 }
