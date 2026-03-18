@@ -51,6 +51,11 @@ public class Ticket implements Printable, Calculable{
         return destino;
     }
     
-    
+    @Override
+    public double calcularTotal(){
+        double tarifaBase = vehiculo.getBaseFare();
+        double descuento = pasajero.calcularDescuento(); 
+        return tarifaBase * (1 - descuento);
+    }
     
 }
