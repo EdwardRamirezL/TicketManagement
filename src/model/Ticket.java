@@ -17,5 +17,16 @@ public class Ticket implements Printable, Calculable{
     private LocalDateTime fechaHora; 
     private String origen; 
     private String destino; 
+
+    public Ticket(int id, Pasajero pasajero, Vehicle vehiculo, LocalDateTime fechaHora, String origen, String destino) {
+        this.id = id;
+        this.pasajero = pasajero;
+        this.vehiculo = vehiculo;
+        this.fechaHora = fechaHora;
+        this.origen = origen;
+        this.destino = destino;
+    }
+    
+    
     
 }
