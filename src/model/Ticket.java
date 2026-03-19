@@ -10,66 +10,64 @@ import java.time.LocalDateTime;
  *
  * @author dimas
  */
-public class Ticket implements Printable, Calculable{
-    private int id; 
-    private Pasajero pasajero; 
-    private Vehicle vehiculo; 
-    private LocalDateTime fechaHora; 
-    private String origen; 
-    private String destino; 
+public class Ticket implements Printable, Calculable {
+    private int id;
+    private Passenger passenger;
+    private Vehicle vehicle;
+    private LocalDateTime dateTime;
+    private String origin;
+    private String destination;
 
-    public Ticket(int id, Pasajero pasajero, Vehicle vehiculo, LocalDateTime fechaHora, String origen, String destino) {
+    public Ticket(int id, Passenger passenger, Vehicle vehicle, LocalDateTime dateTime, String origin, String destination) {
         this.id = id;
-        this.pasajero = pasajero;
-        this.vehiculo = vehiculo;
-        this.fechaHora = fechaHora;
-        this.origen = origen;
-        this.destino = destino;
+        this.passenger = passenger;
+        this.vehicle = vehicle;
+        this.dateTime = dateTime;
+        this.origin = origin;
+        this.destination = destination;
     }
 
     public int getId() {
         return id;
     }
 
-    public Pasajero getPasajero() {
-        return pasajero;
+    public Passenger getPassenger() {
+        return passenger;
     }
 
-    public Vehicle getVehiculo() {
-        return vehiculo;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public LocalDateTime getFechaHora() {
-        return fechaHora;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public String getOrigen() {
-        return origen;
+    public String getOrigin() {
+        return origin;
     }
 
-    public String getDestino() {
-        return destino;
+    public String getDestination() {
+        return destination;
     }
-    
+
     @Override
-    public double calcularTotal(){
-        double tarifaBase = vehiculo.getBaseFare();
-        double descuento = pasajero.calcularDescuento(); 
-        return tarifaBase * (1 - descuento);
+    public double calculateTotal() {
+        double baseFare = vehicle.getBaseFare();
+        double discount = passenger.calculateDiscount();
+        return baseFare * (1 - discount);
     }
-    
+
     @Override
-    public void printDetails(){
-        System.out.println("-----TICKET-----"); 
-        System.out.println("ID: " + id); 
-        System.out.println("Pasajero: " + pasajero.getNombre() + " (" + pasajero.getCedula() + ")");
-        System.out.println("Vehiculo: " + vehiculo.getPlate() + " - " + vehiculo.getClass().getSimpleName());
-        System.out.println("Ruta: " + vehiculo.getRoute());
-        System.out.println("Fecha/Hora: " + fechaHora);
-        System.out.println("Origen : " + origen + "| Destino: " + destino);
-        System.out.println(" Valor total: $%.2f%n" + calcularTotal());
-        System.out.println("-----------------");
-        
+    public void printDetails() {
+        System.out.println("----- TICKET -----");
+        System.out.println("ID: " + id);
+        System.out.println("Passenger: " + passenger.getName() + " (" + passenger.getId() + ")");
+        System.out.println("Vehicle: " + vehicle.getPlate() + " - " + vehicle.getClass().getSimpleName());
+        System.out.println("Route: " + vehicle.getRoute());
+        System.out.println("Date/Time: " + dateTime);
+        System.out.println("Origin: " + origin + " | Destination: " + destination);
+        System.out.printf("Total: $%.2f%n", calculateTotal());
+        System.out.println("-------------------");
     }
-    
 }
