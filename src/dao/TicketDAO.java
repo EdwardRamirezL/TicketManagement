@@ -14,59 +14,59 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import model.Pasajero;
+import model.Passenger;
 import model.Vehicle;
 
 public class TicketDAO {
-    private final String archivo = "tickets.txt";
-    private PasajeroDAO pasajeroDAO = new PasajeroDAO();
+    private final String file = "tickets.txt";
+    private PassengerDAO passengerDAO = new PassengerDAO();
     private VehicleDAO vehicleDAO = new VehicleDAO();
     private DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-    
-    public void guardar(Ticket t){
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(archivo, true))){
-            bw.write(t.getId() + ";" + 
-                    t.getPasajero().getCedula()+ ";" +
-                    t.getVehiculo().getPlate() + ";" +
-                    t.getFechaHora() + ";" + 
-                    t.getOrigen() + ";" + 
-                    t.getDestino() + ";" + 
-                    t.calcularTotal());
+
+    public void save(Ticket t) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
+            bw.write(t.getId() + ";" +
+                    t.getPassenger().getId() + ";" +
+                    t.getVehicle().getPlate() + ";" +
+                    t.getDateTime() + ";" +
+                    t.getOrigin() + ";" +
+                    t.getDestination() + ";" +
+                    t.calculateTotal());
             bw.newLine();
-            
-        }catch(IOException e){
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
-    public ArrayList<Ticket> listar() {
+
+    public ArrayList<Ticket> list() {
         ArrayList<Ticket> tickets = new ArrayList<>();
-        ArrayList<Pasajero> pasajeros = pasajeroDAO.listar();
+        ArrayList<Passenger> passengers = passengerDAO.list();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(";");
-                int id = Integer.parseInt(datos[0]);
-                String cedulaPasajero = datos[1];
-                String placaVehiculo = datos[2];
-                LocalDateTime fechaHora = LocalDateTime.parse(datos[3], formatter);
-                String origen = datos[4];
-                String destino = datos[5];
-                double total = Double.parseDouble(datos[6]);
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(";");
+                int id = Integer.parseInt(data[0]);
+                String passengerId = data[1];
+                String vehiclePlate = data[2];
+                LocalDateTime dateTime = LocalDateTime.parse(data[3], formatter);
+                String origin = data[4];
+                String destination = data[5];
+                double total = Double.parseDouble(data[6]);
 
-                Pasajero pasajero = null;
-                for (Pasajero p : pasajeros) {
-                    if (p.getCedula().equals(cedulaPasajero)) {
-                        pasajero = p;
+                Passenger passenger = null;
+                for (Passenger p : passengers) {
+                    if (p.getId().equals(passengerId)) {
+                        passenger = p;
                         break;
                     }
                 }
 
-                Vehicle vehiculo = vehicleDAO.getVehicleByPlate(placaVehiculo);
+                Vehicle vehicle = vehicleDAO.getVehicleByPlate(vehiclePlate);
 
-                if (pasajero != null && vehiculo != null) {
-                    tickets.add(new Ticket(id, pasajero, vehiculo, fechaHora, origen, destino));
+                if (passenger != null && vehicle != null) {
+                    tickets.add(new Ticket(id, passenger, vehicle, dateTime, origin, destination));
                 }
             }
         } catch (IOException e) {
