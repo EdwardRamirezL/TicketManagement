@@ -8,16 +8,14 @@ package model;
  *
  * @author dimas
  */
-public class PasajeroAdultoMayor extends Pasajero{
+public class SeniorPassenger extends Passenger {
 
-    public PasajeroAdultoMayor(String cedula, String nombre) {
-        super(cedula, nombre);
+    public SeniorPassenger(String id, String name) {
+        super(id, name);
     }
 
     @Override
-    public double calcularDescuento() {
+    public double calculateDiscount() {
         return 0.30;
     }
-    
-    
 }
