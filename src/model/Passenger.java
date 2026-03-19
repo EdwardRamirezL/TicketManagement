@@ -8,11 +8,11 @@ package model;
  *
  * @author dimas
  */
-public abstract class Pasajero extends Persona {
+public abstract class Passenger extends Person {
 
-    public Pasajero(String cedula, String nombre) {
-        super(cedula, nombre);
+    public Passenger(String id, String name) {
+        super(id, name);
     }
     
-    public abstract double calcularDescuento();
+    public abstract double calculateDiscount();
 }
