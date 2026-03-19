@@ -1,0 +1,59 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package dao;
+
+/**
+ *
+ * @author dimas
+ */
+import model.Passenger;
+import model.RegularPassenger;
+import model.StudentPassenger;
+import model.SeniorPassenger;
+
+import java.io.*;
+import java.util.ArrayList;
+
+public class PassengerDAO {
+    private final String file = "passengers.txt";
+
+    public void save(Passenger p) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
+            String type = p.getClass().getSimpleName();
+            bw.write(p.getId() + ";" + p.getName() + ";" + type);
+            bw.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<Passenger> list() {
+        ArrayList<Passenger> passengers = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(";");
+                String id = data[0];
+                String name = data[1];
+                String type = data[2];
+
+                switch (type) {
+                    case "RegularPassenger":
+                        passengers.add(new RegularPassenger(id, name));
+                        break;
+                    case "StudentPassenger":
+                        passengers.add(new StudentPassenger(id, name));
+                        break;
+                    case "SeniorPassenger":
+                        passengers.add(new SeniorPassenger(id, name));
+                        break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return passengers;
+    }
+}
