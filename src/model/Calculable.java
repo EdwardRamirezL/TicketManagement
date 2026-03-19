@@ -9,5 +9,5 @@ package model;
  * @author dimas
  */
 public interface Calculable {
-    double calcularTotal();
+    double calculateTotal();
 }
