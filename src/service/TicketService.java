@@ -12,6 +12,7 @@ import dao.TicketDAO;
 import dao.PassengerDAO;
 import dao.VehicleDAO;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import model.Ticket;
 import model.Passenger;
 import model.Vehicle;
@@ -54,6 +55,16 @@ public class TicketService {
         ticketDAO.save(ticket);
 
         System.out.println("Ticket created successfully with ID: " + ticketId);
-    }  
-    
+    }
+
+    private int getNextId() {
+        ArrayList<Ticket> tickets = ticketDAO.list();
+        int maxId = 0;
+        for (Ticket t : tickets) {
+            if (t.getId() > maxId) {
+                maxId = t.getId();
+            }
+        }
+        return maxId + 1;
+    }
 }
