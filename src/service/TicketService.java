@@ -122,4 +122,24 @@ public class TicketService {
             return false;
         }
     }
+    
+    public boolean updateTicket(int ticketId, String newDestination) {
+        Ticket ticket = findTicketById(ticketId);
+        if (ticket != null) {
+            Ticket updatedTicket = new Ticket(
+                    ticket.getId(),
+                    ticket.getPassenger(),
+                    ticket.getVehicle(),
+                    ticket.getDateTime(),
+                    ticket.getOrigin(),
+                    newDestination
+            );
+            ticketDAO.save(updatedTicket); 
+            System.out.println("Ticket updated successfully");
+            return true;
+        } else {
+            System.out.println("Ticket not found");
+            return false;
+        }
+    }
 }
