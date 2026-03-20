@@ -83,4 +83,13 @@ public class TicketService {
             t.printDetails();
         }
     }
+    
+    public Ticket findTicketById(int ticketId) {
+        for (Ticket t : ticketDAO.list()) {
+            if (t.getId() == ticketId) {
+                return t;
+            }
+        }
+        return null;
+    }
 }
