@@ -50,7 +50,7 @@ public class DriverDAO {
         return list;
     }
     
-    public Driver FindDriverById(String id){ 
+    public Driver findDriverById(String id){ 
         List<Driver> list = getAllDrivers(); 
         for(Driver d: list){
             if(d.getId().equalsIgnoreCase(id)){
