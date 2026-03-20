@@ -56,4 +56,15 @@ public class PassengerDAO {
         }
         return passengers;
     }
+    
+    public Passenger findPassengerById(String id) {
+
+    for (Passenger p : getAllPassengers()) {
+        if (p.getId().equalsIgnoreCase(id)) {
+            return p;
+        }
+    }
+
+    return null;
+}
 }
