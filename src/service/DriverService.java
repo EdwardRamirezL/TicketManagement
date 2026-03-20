@@ -17,4 +17,13 @@ import java.util.List;
 
 public class DriverService {
     private DriverDAO dao = new DriverDAO();
+    
+    public void registerDriver(Driver driver){
+        if(dao.findDriverById(driver.getId())==null){
+            dao.saveDriver(driver);
+            System.out.println("Driver registered successfully");
+        }else{
+            System.out.println("Driver already exists");
+        }
+    }
 }
