@@ -9,6 +9,7 @@ package service;
  * @author dimas
  */
 import dao.PassengerDAO;
+import java.util.ArrayList;
 import model.Passenger;
 
 import java.util.List;
@@ -23,5 +24,9 @@ public class PassengerService {
         }else{
             System.out.println("Passenger already exists");
         }
+    }
+    
+    public ArrayList<Passenger> getAllPassengers() {
+        return dao.list();
     }
 }
