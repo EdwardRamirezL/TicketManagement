@@ -71,4 +71,16 @@ public class TicketService {
     public ArrayList<Ticket> getAllTickets() {
         return ticketDAO.list();
     }
+    
+    public void showTickets() {
+        ArrayList<Ticket> tickets = getAllTickets();
+        if (tickets.isEmpty()) {
+            System.out.println("No tickets found");
+            return;
+        }
+
+        for (Ticket t : tickets) {
+            t.printDetails();
+        }
+    }
 }
