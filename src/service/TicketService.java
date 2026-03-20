@@ -44,7 +44,7 @@ public class TicketService {
         int ticketId = nextId++;
 
         Ticket ticket = new Ticket(
-                ticketId,         // ID asignado automáticamente
+                ticketId,         
                 passenger,
                 vehicle,
                 LocalDateTime.now(),
@@ -66,5 +66,9 @@ public class TicketService {
             }
         }
         return maxId + 1;
+    }
+    
+    public ArrayList<Ticket> getAllTickets() {
+        return ticketDAO.list();
     }
 }
