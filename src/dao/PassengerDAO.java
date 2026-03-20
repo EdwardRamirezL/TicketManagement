@@ -67,4 +67,12 @@ public class PassengerDAO {
 
     return null;
 }
+    
+    public ArrayList<Passenger> getAllPassengers() {
+    return list();
+}
+
+    public Passenger findPassenger(String id) {
+    return findPassengerById(id);
+    }
 }
