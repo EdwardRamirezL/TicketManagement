@@ -26,4 +26,8 @@ public class DriverService {
             System.out.println("Driver already exists");
         }
     }
+    
+    public List<Driver> getAllDrivers() {
+        return dao.getAllDrivers();
+    }
 }
