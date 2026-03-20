@@ -11,6 +11,7 @@ package service;
 import dao.TicketDAO;
 import dao.PassengerDAO;
 import dao.VehicleDAO;
+import java.io.BufferedWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.Ticket;
@@ -91,5 +92,34 @@ public class TicketService {
             }
         }
         return null;
+    }
+    
+    public boolean deleteTicket(int ticketId) {
+        ArrayList<Ticket> tickets = ticketDAO.list();
+        ArrayList<Ticket> updatedTickets = new ArrayList<>();
+        boolean found = false;
+
+        for (Ticket t : tickets) {
+            if (t.getId() == ticketId) {
+                found = true;
+            } else {
+                updatedTickets.add(t);
+            }
+        }
+
+        if (found) {
+            try (BufferedWriter bw = new BufferedWriter(new java.io.FileWriter("tickets.txt"))) {
+                for (Ticket t : updatedTickets) {
+                    ticketDAO.save(t);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("Ticket deleted successfully");
+            return true;
+        } else {
+            System.out.println("Ticket not found");
+            return false;
+        }
     }
 }
