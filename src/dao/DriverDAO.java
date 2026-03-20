@@ -17,4 +17,16 @@ import java.util.List;
 
 public class DriverDAO {
     private final String file = "drivers.txt"; 
+    
+    public void saveDriver(Driver driver){
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))){
+            bw.write(driver.getId() + ";" +
+                     driver.getName() + ";" + 
+                     driver.getLicenseNumber() + ";" + 
+                     driver.getLicenseCategory());
+            bw.newLine();
+        }catch(IOException e){
+            System.out.println("Error saving driver: " + e.getMessage());
+        }
+    }
 }
