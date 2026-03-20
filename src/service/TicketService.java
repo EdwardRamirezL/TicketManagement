@@ -11,6 +11,7 @@ package service;
 import dao.TicketDAO;
 import dao.PassengerDAO;
 import dao.VehicleDAO;
+import java.time.LocalDateTime;
 import model.Ticket;
 import model.Passenger;
 import model.Vehicle;
@@ -21,4 +22,38 @@ public class TicketService {
     private TicketDAO ticketDAO = new TicketDAO();
     private PassengerDAO passengerDAO = new PassengerDAO(); 
     private VehicleDAO vehicleDAO = new VehicleDAO(); 
+    
+     public void createTicket(String passengerId, String plate,
+                             String origin, String destination) {
+
+        Passenger passenger = passengerDAO.findPassengerById(passengerId);
+        Vehicle vehicle = vehicleDAO.buscarVehiculo(plate);
+
+        if (passenger == null) {
+            System.out.println("Passenger not found");
+            return;
+        }
+
+        if (vehicle == null) {
+            System.out.println("Vehicle not found");
+            return;
+        }
+
+        
+        int ticketId = nextId++;
+
+        Ticket ticket = new Ticket(
+                ticketId,         // ID asignado automáticamente
+                passenger,
+                vehicle,
+                LocalDateTime.now(),
+                origin,
+                destination
+        );
+
+        ticketDAO.save(ticket);
+
+        System.out.println("Ticket created successfully with ID: " + ticketId);
+    }  
+    
 }
