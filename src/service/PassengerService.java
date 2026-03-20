@@ -29,4 +29,8 @@ public class PassengerService {
     public ArrayList<Passenger> getAllPassengers() {
         return dao.list();
     }
+    
+    public Passenger findPassenger(String id) {
+        return dao.findPassengerById(id);
+    }
 }
