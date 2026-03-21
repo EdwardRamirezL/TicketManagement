@@ -232,5 +232,67 @@ public class TicketManagement {
         }
     }
 
+    private static void menuTickets() {
+        int option;
+        do {
+            System.out.println("\n--- VENTA DE TICKETS ---");
+            System.out.println("1. Vender ticket");
+            System.out.println("2. Listar todos los tickets");
+            System.out.println("3. Buscar ticket por ID");
+            System.out.println("4. Eliminar ticket");
+            System.out.println("5. Actualizar destino de ticket");
+            System.out.println("0. Volver");
+            System.out.print("Opción: ");
+            option = readInt();
+            switch (option) {
+                case 1 -> sellTicket();
+                case 2 -> ticketService.showTickets();
+                case 3 -> searchTicket();
+                case 4 -> deleteTicket();
+                case 5 -> updateTicket();
+                case 0 -> {}
+                default -> System.out.println("Opción inválida.");
+            }
+        } while (option != 0);
+    }
+
+    private static void sellTicket() {
+        System.out.print("  Cédula del pasajero: ");
+        String passengerId = scanner.nextLine().trim();
+        System.out.print("  Placa del vehículo: ");
+        String plate = scanner.nextLine().trim().toUpperCase();
+        System.out.print("  Origen: ");
+        String origin = scanner.nextLine().trim();
+        System.out.print("  Destino: ");
+        String destination = scanner.nextLine().trim();
+
+        ticketService.createTicket(passengerId, plate, origin, destination);
+    }
+
+    private static void searchTicket() {
+        System.out.print("  ID del ticket: ");
+        int id = readInt();
+        Ticket t = ticketService.findTicketById(id);
+        if (t != null) {
+            t.printDetails();
+        } else {
+            System.out.println("No se encontró ningún ticket con ese ID.");
+        }
+    }
+
+    private static void deleteTicket() {
+        System.out.print("  ID del ticket a eliminar: ");
+        int id = readInt();
+        ticketService.deleteTicket(id);
+    }
+
+    private static void updateTicket() {
+        System.out.print("  ID del ticket a actualizar: ");
+        int id = readInt();
+        System.out.print("  Nuevo destino: ");
+        String newDestination = scanner.nextLine().trim();
+        ticketService.updateTicket(id, newDestination);
+    }
+
 
 }
