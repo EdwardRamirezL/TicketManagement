@@ -109,11 +109,12 @@ public class TicketService {
 
         if (found) {
             try (BufferedWriter bw = new BufferedWriter(new java.io.FileWriter("tickets.txt"))) {
-                for (Ticket t : updatedTickets) {
-                    ticketDAO.save(t);
-                }
+
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+            for (Ticket t : updatedTickets) {
+                ticketDAO.save(t);
             }
             System.out.println("Ticket deleted successfully");
             return true;
