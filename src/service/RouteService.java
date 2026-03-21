@@ -14,6 +14,7 @@ import dao.RouteDAO;
 import model.Route;
 
 import java.util.ArrayList;
+import model.Vehicle;
 
 public class RouteService {
 
@@ -45,5 +46,33 @@ public class RouteService {
 
         return null;
     }
+    
+    public Route getAvailableRoute(){
+
+    for(Route r : routes){
+        return r; 
+    }
+
+    return null;
+}
+ 
+    public Route getRouteForVehicle(Vehicle v){
+
+    for(Route r : routes){
+
+        
+        if(v.hasAvailableSeats()){
+            return r;
+        }
+
+    }
+
+    return null;
+}
+
+    
+    
+    
+    
 }
 

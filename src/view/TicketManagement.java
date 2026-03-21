@@ -77,15 +77,14 @@ public class TicketManagement {
 
         System.out.print("  Placa: ");
         String plate = scanner.nextLine().trim().toUpperCase();
-        System.out.print("  Ruta: ");
-        String route = scanner.nextLine().trim();
-
+        
         Vehicle vehicle = switch (type) {
-            case 1 -> new Buseta(plate, route);
-            case 2 -> new MicroBus(plate, route);
-            case 3 -> new Bus(plate, route);
+            case 1 -> new Buseta(plate, null);
+            case 2 -> new MicroBus(plate, null);
+            case 3 -> new Bus(plate, null);
             default -> null;
         };
+        
 
         if (vehicle == null) {
             System.out.println("Tipo de vehículo inválido.");

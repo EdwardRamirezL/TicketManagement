@@ -55,4 +55,26 @@ public abstract class Vehicle implements Printable {
         return maxCapacity;
     }
 
+    public void setPlate(String plate) {
+        this.plate = plate;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public void setMaxCapacity(int maxCapacity) {
+        this.maxCapacity = maxCapacity;
+    }
+
+    public void setCurrentPassengers(int currentPassengers) {
+        this.currentPassengers = currentPassengers;
+    }
+
+    public void setBaseFare(double baseFare) {
+        this.baseFare = baseFare;
+    }
+
+    
+    
 }
