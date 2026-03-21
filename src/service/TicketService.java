@@ -39,7 +39,7 @@ public class TicketService {
         return FESTIVOS.contains(MonthDay.of(date.getMonth(), date.getDayOfMonth()));
     }
     
-      public void createTicket(String passengerId, String plate,
+    public void createTicket(String passengerId, String plate,
                              String origin, String destination) {
 
         Passenger passenger = passengerDAO.findPassengerById(passengerId);
@@ -55,25 +55,28 @@ public class TicketService {
             return;
         }
 
-        ArrayList<Ticket> allTickets = ticketDAO.list();
-
-        long occupiedSeats = allTickets.stream()
+        long occupiedSeats = ticketDAO.list().stream()
                 .filter(t -> t.getVehicle().getPlate().equalsIgnoreCase(plate))
                 .count();
         if (occupiedSeats >= vehicle.getMaxCapacity()) {
-            System.out.println("El vehículo no tiene asientos disponibles (capacidad: " + vehicle.getMaxCapacity() + ").");
+            System.out.println("Vehicle has no available seats (capacity: " + vehicle.getMaxCapacity() + ")");
             return;
         }
 
         LocalDate today = LocalDate.now();
-        long ticketsToday = allTickets.stream()
+        long ticketsToday = ticketDAO.list().stream()
                 .filter(t -> t.getPassenger().getId().equalsIgnoreCase(passengerId))
                 .filter(t -> t.getDateTime().toLocalDate().equals(today))
                 .count();
 
         if (ticketsToday >= 3) {
-            System.out.println("Venta rechazada: el pasajero ya tiene " + ticketsToday + " ticket(s) para hoy.");
+            System.out.println("Purchase rejected: passenger already has " + ticketsToday + " ticket(s) for today.");
             return;
+        }
+
+        if (isFestivo(today)) {
+            vehicle.setBaseFare(vehicle.getBaseFare() * 1.20);
+            System.out.println("Holiday fare applied: 20% surcharge.");
         }
 
         int ticketId = getNextId();
