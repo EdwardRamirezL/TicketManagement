@@ -40,39 +40,40 @@ public class TicketDAO {
     }
 
     public ArrayList<Ticket> list() {
-        ArrayList<Ticket> tickets = new ArrayList<>();
-        ArrayList<Passenger> passengers = passengerDAO.list();
+    ArrayList<Ticket> tickets = new ArrayList<>();
+    File f = new File(file);
+    if (!f.exists() || f.length() == 0) return tickets;
+    
+    ArrayList<Passenger> passengers = passengerDAO.list();
+    try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue;
+            String[] data = line.split(";");
+            if (data.length < 7) continue;
+            
+            int id = Integer.parseInt(data[0]);
+            String passengerId = data[1];
+            String vehiclePlate = data[2];
+            LocalDateTime dateTime = LocalDateTime.parse(data[3], formatter);
+            String origin = data[4];
+            String destination = data[5];
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(";");
-                int id = Integer.parseInt(data[0]);
-                String passengerId = data[1];
-                String vehiclePlate = data[2];
-                LocalDateTime dateTime = LocalDateTime.parse(data[3], formatter);
-                String origin = data[4];
-                String destination = data[5];
-                double total = Double.parseDouble(data[6]);
-
-                Passenger passenger = null;
-                for (Passenger p : passengers) {
-                    if (p.getId().equals(passengerId)) {
-                        passenger = p;
-                        break;
-                    }
-                }
-
-                Vehicle vehicle = vehicleDAO.getVehicleByPlate(vehiclePlate);
-
-                if (passenger != null && vehicle != null) {
-                    tickets.add(new Ticket(id, passenger, vehicle, dateTime, origin, destination));
+            Passenger passenger = null;
+            for (Passenger p : passengers) {
+                if (p.getId().equals(passengerId)) {
+                    passenger = p;
+                    break;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            Vehicle vehicle = vehicleDAO.getVehicleByPlate(vehiclePlate);
+            if (passenger != null && vehicle != null) {
+                tickets.add(new Ticket(id, passenger, vehicle, dateTime, origin, destination));
+            }
         }
-
-        return tickets;
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+    return tickets;
+}
 }
