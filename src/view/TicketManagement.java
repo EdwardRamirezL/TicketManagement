@@ -294,5 +294,36 @@ public class TicketManagement {
         ticketService.updateTicket(id, newDestination);
     }
 
+    private static void menuStatistics() {
+        int option;
+        do {
+            System.out.println("\n--- CONSULTAS Y ESTADÍSTICAS ---");
+            System.out.println("1. Listar todos los tickets vendidos");
+            System.out.println("2. Total de dinero recaudado");
+            System.out.println("3. Pasajeros por tipo");
+            System.out.println("4. Vehículo con más tickets vendidos");
+            System.out.println("0. Volver");
+            System.out.print("Opción: ");
+            option = readInt();
+            switch (option) {
+                case 1 -> ticketService.showTickets();
+                case 2 -> showTotalRevenue();
+                case 3 -> showPassengersByType();
+                case 4 -> showTopVehicle();
+                case 0 -> {}
+                default -> System.out.println("Opción inválida.");
+            }
+        } while (option != 0);
+    }
+
+    private static void showTotalRevenue() {
+        ArrayList<Ticket> tickets = ticketService.getAllTickets();
+        double total = 0;
+        for (Ticket t : tickets) {
+            total += t.calculateTotal();
+        }
+        System.out.printf("%n  Total recaudado: $%,.2f  (%d ticket(s) vendido(s))%n",
+                total, tickets.size());
+    }
 
 }
