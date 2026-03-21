@@ -42,7 +42,7 @@ public class TicketService {
         }
 
         
-        int ticketId = nextId++;
+        int ticketId = getNextId();
 
         Ticket ticket = new Ticket(
                 ticketId,         
