@@ -32,6 +32,7 @@ public class TicketManagement {
                 case 4 -> menuRoutes();
                 case 5 -> menuTickets();
                 case 6 -> menuStatistics();
+                case 7 -> menuReports();
 
                 case 0 -> System.out.println("Saliendo del sistema. ¡Hasta pronto!");
                 default -> System.out.println("Opción inválida. Intente de nuevo.");
@@ -50,6 +51,7 @@ public class TicketManagement {
         System.out.println("║  4. Gestión de Rutas                   ║");
         System.out.println("║  5. Venta de Tickets                   ║");
         System.out.println("║  6. Consultas y Estadísticas           ║");
+        System.out.println("║  7. Módulo de Reportes                 ║");
         System.out.println("║  0. Salir                              ║");;
         System.out.println("╚════════════════════════════════════════╝");
         System.out.print("Seleccione una opción: ");
@@ -443,6 +445,135 @@ public class TicketManagement {
         }
         System.out.println("\n  Vehículo con más tickets vendidos:");
         System.out.println("  Placa: " + topPlate + " | Tickets: " + max);
+    }
+
+    private static void menuReports() {
+        int option;
+        do {
+            System.out.println("\n--- MÓDULO DE REPORTES ---");
+            System.out.println("1. Tickets vendidos por fecha específica");
+            System.out.println("2. Tickets vendidos por tipo de vehículo");
+            System.out.println("3. Tickets vendidos por tipo de pasajero");
+            System.out.println("4. Resumen del día actual");
+            System.out.println("0. Volver");
+            System.out.print("Opción: ");
+            option = readInt();
+            switch (option) {
+                case 1 -> reportByDate();
+                case 2 -> reportByVehicleType();
+                case 3 -> reportByPassengerType();
+                case 4 -> reportDailySummary();
+                case 0 -> {}
+                default -> System.out.println("Opción inválida.");
+            }
+        } while (option != 0);
+    }
+
+    private static void reportByDate() {
+        System.out.print("  Fecha (YYYY-MM-DD): ");
+        LocalDate date;
+        try {
+            date = LocalDate.parse(scanner.nextLine().trim());
+        } catch (Exception e) {
+            System.out.println("Fecha inválida. Use el formato YYYY-MM-DD (ej: 2025-12-25).");
+            return;
+        }
+
+        ArrayList<Ticket> tickets = ticketService.getTicketsByDate(date);
+        System.out.println("\n--- TICKETS VENDIDOS EL " + date + " ---");
+        if (tickets.isEmpty()) {
+            System.out.println("  No hay tickets registrados para esa fecha.");
+            return;
+        }
+        for (Ticket t : tickets) {
+            t.printDetails();
+        }
+        System.out.println("  Total de tickets: " + tickets.size());
+    }
+
+    private static void reportByVehicleType() {
+        System.out.println("  Tipo de vehículo:");
+        System.out.println("  1. Bus");
+        System.out.println("  2. Buseta");
+        System.out.println("  3. MicroBus");
+        System.out.print("  Opción: ");
+        int option = readInt();
+        String vehicleType = switch (option) {
+            case 1 -> "Bus";
+            case 2 -> "Buseta";
+            case 3 -> "MicroBus";
+            default -> null;
+        };
+
+        if (vehicleType == null) {
+            System.out.println("Opción inválida.");
+            return;
+        }
+
+        ArrayList<Ticket> tickets = ticketService.getTicketsByVehicleType(vehicleType);
+        System.out.println("\n--- TICKETS VENDIDOS EN VEHÍCULOS TIPO " + vehicleType.toUpperCase() + " ---");
+        if (tickets.isEmpty()) {
+            System.out.println("  No hay tickets registrados para ese tipo de vehículo.");
+            return;
+        }
+        for (Ticket t : tickets) {
+            t.printDetails();
+        }
+        System.out.println("  Total de tickets: " + tickets.size());
+    }
+
+    private static void reportByPassengerType() {
+        System.out.println("  Tipo de pasajero:");
+        System.out.println("  1. Pasajero regular");
+        System.out.println("  2. Estudiante");
+        System.out.println("  3. Adulto mayor");
+        System.out.print("  Opción: ");
+        int option = readInt();
+        String passengerType = switch (option) {
+            case 1 -> "RegularPassenger";
+            case 2 -> "StudentPassenger";
+            case 3 -> "SeniorPassenger";
+            default -> null;
+        };
+
+        if (passengerType == null) {
+            System.out.println("Opción inválida.");
+            return;
+        }
+
+        ArrayList<Ticket> tickets = ticketService.getTicketsByPassengerType(passengerType);
+        String label = switch (option) {
+            case 1 -> "PASAJEROS REGULARES";
+            case 2 -> "ESTUDIANTES";
+            case 3 -> "ADULTOS MAYORES";
+            default -> passengerType.toUpperCase();
+        };
+        System.out.println("\n--- TICKETS VENDIDOS A " + label + " ---");
+        if (tickets.isEmpty()) {
+            System.out.println("  No hay tickets registrados para ese tipo de pasajero.");
+            return;
+        }
+        for (Ticket t : tickets) {
+            t.printDetails();
+        }
+        System.out.println("  Total de tickets: " + tickets.size());
+    }
+
+    private static void reportDailySummary() {
+        LocalDate today = LocalDate.now();
+        ArrayList<Ticket> tickets = ticketService.getTicketsByDate(today);
+
+        double totalRevenue = 0;
+        for (Ticket t : tickets) {
+            totalRevenue += t.calculateTotal();
+        }
+
+        System.out.println("\n╔════════════════════════════════════════╗");
+        System.out.println("║         RESUMEN DEL DÍA: " + today + "  ║");
+        System.out.println("╠════════════════════════════════════════╣");
+        System.out.printf ("║  Tickets vendidos hoy : %-14d ║%n", tickets.size());
+        System.out.printf ("║  Total recaudado hoy  : $%-13.2f ║%n", totalRevenue);
+        System.out.println("╚════════════════════════════════════════╝");
     }
 
     private static int readInt() {
