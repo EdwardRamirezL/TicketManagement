@@ -47,4 +47,63 @@ public class TicketManagement {
         System.out.print("Seleccione una opción: ");
     }
 
+    private static void menuVehicles() {
+        int option;
+        do {
+            System.out.println("\n--- GESTIÓN DE VEHÍCULOS ---");
+            System.out.println("1. Registrar vehículo");
+            System.out.println("2. Listar vehículos");
+            System.out.println("3. Buscar vehículo por placa");
+            System.out.println("0. Volver");
+            System.out.print("Opción: ");
+            option = readInt();
+            switch (option) {
+                case 1 -> registerVehicle();
+                case 2 -> vehicleService.listarVehiculos();
+                case 3 -> searchVehicle();
+                case 0 -> {}
+                default -> System.out.println("Opción inválida.");
+            }
+        } while (option != 0);
+    }
+
+    private static void registerVehicle() {
+        System.out.println("\n  Tipo de vehículo:");
+        System.out.println("  1. Buseta   (cap. 19, $8.000)");
+        System.out.println("  2. MicroBus (cap. 25, $10.000)");
+        System.out.println("  3. Bus      (cap. 45, $15.000)");
+        System.out.print("  Tipo: ");
+        int type = readInt();
+
+        System.out.print("  Placa: ");
+        String plate = scanner.nextLine().trim().toUpperCase();
+        System.out.print("  Ruta: ");
+        String route = scanner.nextLine().trim();
+
+        Vehicle vehicle = switch (type) {
+            case 1 -> new Buseta(plate, route);
+            case 2 -> new MicroBus(plate, route);
+            case 3 -> new Bus(plate, route);
+            default -> null;
+        };
+
+        if (vehicle == null) {
+            System.out.println("Tipo de vehículo inválido.");
+            return;
+        }
+        vehicleService.registrarVehiculo(vehicle);
+    }
+
+    private static void searchVehicle() {
+        System.out.print("  Placa: ");
+        String plate = scanner.nextLine().trim().toUpperCase();
+        Vehicle v = vehicleService.buscarVehiculo(plate);
+        if (v != null) {
+            v.printDetails();
+        } else {
+            System.out.println("No se encontró ningún vehículo con esa placa.");
+        }
+    }
+
+
 }
