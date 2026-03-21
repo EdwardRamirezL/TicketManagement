@@ -18,6 +18,7 @@ public class TicketManagement {
     private static final PassengerService passengerService = new PassengerService();
     private static final DriverService driverService = new DriverService();
     private static final TicketService ticketService = new TicketService();
+    private static final RouteService routeService = new RouteService();
 
     public static void main(String[] args) {
         int option;
@@ -84,14 +85,24 @@ public class TicketManagement {
 
         System.out.print("  Placa: ");
         String plate = scanner.nextLine().trim().toUpperCase();
-        
+
+        System.out.println("\n  Rutas disponibles:");
+        routeService.listRoutes();
+        System.out.print("  Código de ruta: ");
+        String routeCode = scanner.nextLine().trim().toUpperCase();
+
+        Route selectedRoute = routeService.findRouteByCode(routeCode);
+        if (selectedRoute == null) {
+            System.out.println("Ruta no encontrada. Registre la ruta primero.");
+            return;
+        }
+
         Vehicle vehicle = switch (type) {
-            case 1 -> new Buseta(plate, null);
-            case 2 -> new MicroBus(plate, null);
-            case 3 -> new Bus(plate, null);
+            case 1 -> new Buseta(plate, selectedRoute);
+            case 2 -> new MicroBus(plate, selectedRoute);
+            case 3 -> new Bus(plate, selectedRoute);
             default -> null;
         };
-        
 
         if (vehicle == null) {
             System.out.println("Tipo de vehículo inválido.");
@@ -232,8 +243,6 @@ public class TicketManagement {
 //hola bros aqui esta el menu de rutas jasjas pinches dormilones
     
     private static void menuRoutes() {
-
-    RouteService routeService = new RouteService();
 
     int option;
     do {
