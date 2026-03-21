@@ -10,7 +10,7 @@ package dao;
  */
 
 
-package dao;
+
 import java.io.*;
 import java.util.ArrayList;
 import model.*;
@@ -93,4 +93,51 @@ public class VehicleDAO {
 
     }
 
+    
+    
+    public Vehicle getVehicleByPlate(String plate){
+
+    try{
+
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        String line;
+
+        while((line = br.readLine()) != null){
+
+            String[] data = line.split(";");
+
+            String filePlate = data[0];
+            String route = data[1];
+            String type = data[2];
+
+            if(filePlate.equalsIgnoreCase(plate)){
+
+                br.close();
+
+                if(type.equals("Buseta"))
+                    return new Buseta(filePlate, route);
+
+                if(type.equals("MicroBus"))
+                    return new MicroBus(filePlate, route);
+
+                if(type.equals("Bus"))
+                    return new Bus(filePlate, route);
+
+            }
+
+        }
+
+        br.close();
+
+    }catch(IOException e){
+
+        System.out.println("Error reading vehicle file");
+
+    }
+
+    return null; // si no lo encuentra
+}
+
+    
+    
 }
