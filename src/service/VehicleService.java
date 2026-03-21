@@ -9,8 +9,6 @@ package service;
  * @author ASUS
  */
 
-import service.RouteService;
-import model.Route;
 import dao.VehicleDAO;
 import model.Vehicle;
 import java.util.ArrayList;
@@ -20,10 +18,6 @@ public class VehicleService {
 
     private VehicleDAO dao = new VehicleDAO();
     private ArrayList<Vehicle> vehicleList;
-    private RouteService routeService = new RouteService();
-    
-    
-    
 
     public VehicleService() {
 
@@ -33,30 +27,18 @@ public class VehicleService {
 
     public void registerVehicle(Vehicle v){
 
-    
-    for(Vehicle vehicle : vehicleList){
-        if(vehicle.getPlate().equalsIgnoreCase(v.getPlate())){
-            System.out.println("ERROR: A vehicle with this plate already exists");
-            return;
+        for(Vehicle vehicle : vehicleList){
+            if(vehicle.getPlate().equalsIgnoreCase(v.getPlate())){
+                System.out.println("ERROR: Ya existe un vehículo con esa placa.");
+                return;
+            }
         }
-    }
 
-    
-    Route route = routeService.getAvailableRoute();
+        vehicleList.add(v);
+        dao.saveVehicle(v);
 
-    if(route == null){
-        System.out.println("No available routes.");
-        return;
-    }
-
-    
-    v.setRoute(route);
-
-    vehicleList.add(v);
-    dao.saveVehicle(v);
-
-    System.out.println("Vehicle registered successfully with route: " 
-                       + route.toString());
+        System.out.println("Vehículo registrado con éxito. Ruta asignada: "
+                           + v.getRoute().toString());
     }
 
     public void listVehicles(){
