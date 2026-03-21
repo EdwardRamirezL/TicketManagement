@@ -77,16 +77,14 @@ public class PassengerDAO {
         return passengers;
     }
     
-    public Passenger findPassengerById(String id) {
-
-    for (Passenger p : getAllPassengers()) {
-        if (p.getId().equalsIgnoreCase(id)) {
-            return p;
+   public Passenger findPassengerById(String id) {
+        for (Passenger p : list()) {
+            if (p.getId().equalsIgnoreCase(id)) {
+                return p;
+            }
         }
+        return null;
     }
-
-    return null;
-}
     
     public ArrayList<Passenger> getAllPassengers() {
     return list();
