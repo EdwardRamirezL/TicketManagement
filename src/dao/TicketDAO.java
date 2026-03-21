@@ -83,9 +83,10 @@ public class TicketDAO {
                     break;
                 }
             }
+            double total = Double.parseDouble(data[6]);
             Vehicle vehicle = vehicleDAO.getVehicleByPlate(vehiclePlate);
             if (passenger != null && vehicle != null) {
-                tickets.add(new Ticket(id, passenger, vehicle, dateTime, origin, destination));
+                tickets.add(new Ticket(id, passenger, vehicle, dateTime, origin, destination, total));
             }
         }
     } catch (IOException e) {

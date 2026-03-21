@@ -65,9 +65,7 @@ public class Ticket implements Printable, Calculable {
 
     @Override
     public double calculateTotal() {
-        double baseFare = vehicle.getBaseFare();
-        double discount = passenger.calculateDiscount();
-        return baseFare * (1 - discount);
+        return total;
     }
 
     @Override
