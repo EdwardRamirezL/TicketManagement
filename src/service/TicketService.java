@@ -13,7 +13,10 @@ import dao.PassengerDAO;
 import dao.VehicleDAO;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.MonthDay;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import model.Ticket;
 import model.Passenger;
 import model.Vehicle;
@@ -22,6 +25,15 @@ public class TicketService {
     private TicketDAO ticketDAO = new TicketDAO();
     private PassengerDAO passengerDAO = new PassengerDAO(); 
     private VehicleDAO vehicleDAO = new VehicleDAO(); 
+    
+    private static final List<MonthDay> FESTIVOS = Arrays.asList(
+        MonthDay.of(1, 1),
+        MonthDay.of(5, 1),
+        MonthDay.of(7, 20),
+        MonthDay.of(8, 7),
+        MonthDay.of(12, 8),
+        MonthDay.of(12, 25)
+    );
     
       public void createTicket(String passengerId, String plate,
                              String origin, String destination) {
