@@ -60,7 +60,7 @@ public class VehicleDAO {
             String line;
 
             while((line = br.readLine()) != null){
-                
+
                 if(line.trim().isEmpty()) continue;
 
                 String[] data = line.split(";");
@@ -105,8 +105,8 @@ public class VehicleDAO {
     }
 
 
-    
-    
+
+
     public Vehicle getVehicleByPlate(String plate){
 
     try{
@@ -115,25 +115,25 @@ public class VehicleDAO {
         String line;
 
         while((line = br.readLine()) != null){
-            
+
             if(line.trim().isEmpty()) continue;
 
             String[] data = line.split(";");
 
             String filePlate = data[0];
             String routeCode = data[1];
-            Route route = routeDAO.getRouteByCode(routeCode);
             String type = data[2];
-            
-            if(route == null){
-                System.out.println("Ruta no encontrada: " + routeCode);
-                continue;
-            }
-
 
             if(filePlate.equalsIgnoreCase(plate)){
 
+                Route route = routeDAO.getRouteByCode(routeCode);
+
                 br.close();
+
+                if(route == null){
+                    System.out.println("Ruta no encontrada: " + routeCode);
+                    return null;
+                }
 
                 if(type.equals("Buseta"))
                     return new Buseta(filePlate, route);
@@ -143,8 +143,6 @@ public class VehicleDAO {
 
                 if(type.equals("Bus"))
                     return new Bus(filePlate, route);
-                
-                
 
             }
 
@@ -158,10 +156,10 @@ public class VehicleDAO {
 
     }
 
-    return null; 
+    return null;
 }
 
-    
-    
+
+
 
 }
