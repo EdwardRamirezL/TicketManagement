@@ -51,4 +51,8 @@ public abstract class Vehicle implements Printable {
         return baseFare;
     }
 
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+
 }

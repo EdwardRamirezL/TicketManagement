@@ -41,7 +41,14 @@ public class TicketService {
             return;
         }
 
-        
+        long occupiedSeats = ticketDAO.list().stream()
+                .filter(t -> t.getVehicle().getPlate().equalsIgnoreCase(plate))
+                .count();
+        if (occupiedSeats >= vehicle.getMaxCapacity()) {
+            System.out.println("Vehicle has no available seats (capacity: " + vehicle.getMaxCapacity() + ")");
+            return;
+        }
+
         int ticketId = getNextId();
 
         Ticket ticket = new Ticket(
