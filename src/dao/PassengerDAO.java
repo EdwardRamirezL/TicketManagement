@@ -29,10 +29,6 @@ public class PassengerDAO {
     }
 
     public void save(Passenger p) {
-       if (exists(p.getId())) {
-            System.out.println("El pasajero con ID " + p.getId() + " ya existe.");
-            return;
-        }
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             String type = p.getClass().getSimpleName();
             bw.write(p.getId() + ";" + p.getName() + ";" + type);
