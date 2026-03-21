@@ -124,10 +124,10 @@ public class VehicleDAO {
             String type = data[2];
             
             if(route == null){
-                System.out.println("Ruta no encontrada");
-                return null;
+                System.out.println("Ruta no encontrada: " + routeCode);
+                continue;
             }
-            
+
 
             if(filePlate.equalsIgnoreCase(plate)){
 

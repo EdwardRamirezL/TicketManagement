@@ -28,7 +28,7 @@ public class TicketManagement {
                 case 1 -> menuVehicles();
                 case 2 -> menuDrivers();
                 case 3 -> menuPassengers();
-                case 4 -> menuRoutes();      // NUEVO RAAAAH *aguila power*
+                case 4 -> menuRoutes();
                 case 5 -> menuTickets();
                 case 6 -> menuStatistics();
 
@@ -46,7 +46,7 @@ public class TicketManagement {
         System.out.println("║  1. Gestión de Vehículos               ║");
         System.out.println("║  2. Gestión de Conductores             ║");
         System.out.println("║  3. Gestión de Pasajeros               ║");
-        System.out.println("║  4. Gestión de Rutas                   ║"); // 🔥 NUEVO
+        System.out.println("║  4. Gestión de Rutas                   ║");
         System.out.println("║  5. Venta de Tickets                   ║");
         System.out.println("║  6. Consultas y Estadísticas           ║");
         System.out.println("║  0. Salir                              ║");;
