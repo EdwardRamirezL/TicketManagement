@@ -19,15 +19,6 @@ import java.util.ArrayList;
 public class PassengerDAO {
     private final String file = "passengers.txt";
     
-    public boolean exists(String id) {
-        for (Passenger p : list()) {
-            if (p.getId().equalsIgnoreCase(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void save(Passenger p) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             String type = p.getClass().getSimpleName();
@@ -82,11 +73,4 @@ public class PassengerDAO {
         return null;
     }
     
-    public ArrayList<Passenger> getAllPassengers() {
-    return list();
-}
-
-    public Passenger findPassenger(String id) {
-    return findPassengerById(id);
-    }
 }
