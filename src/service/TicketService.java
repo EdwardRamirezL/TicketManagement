@@ -153,6 +153,36 @@ public class TicketService {
         }
     }
     
+    public ArrayList<Ticket> getTicketsByDate(LocalDate date) {
+        ArrayList<Ticket> result = new ArrayList<>();
+        for (Ticket t : ticketDAO.list()) {
+            if (t.getDateTime().toLocalDate().equals(date)) {
+                result.add(t);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Ticket> getTicketsByVehicleType(String vehicleType) {
+        ArrayList<Ticket> result = new ArrayList<>();
+        for (Ticket t : ticketDAO.list()) {
+            if (t.getVehicle().getClass().getSimpleName().equalsIgnoreCase(vehicleType)) {
+                result.add(t);
+            }
+        }
+        return result;
+    }
+
+    public ArrayList<Ticket> getTicketsByPassengerType(String passengerType) {
+        ArrayList<Ticket> result = new ArrayList<>();
+        for (Ticket t : ticketDAO.list()) {
+            if (t.getPassenger().getClass().getSimpleName().equalsIgnoreCase(passengerType)) {
+                result.add(t);
+            }
+        }
+        return result;
+    }
+
     public boolean updateTicket(int ticketId, String newDestination) {
         ArrayList<Ticket> tickets = ticketDAO.list();
         boolean found = false;
