@@ -35,6 +35,10 @@ public class TicketService {
         MonthDay.of(12, 25)
     );
     
+    private boolean isFestivo(LocalDate date) {
+        return FESTIVOS.contains(MonthDay.of(date.getMonth(), date.getDayOfMonth()));
+    }
+    
       public void createTicket(String passengerId, String plate,
                              String origin, String destination) {
 
