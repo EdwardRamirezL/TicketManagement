@@ -29,7 +29,7 @@ public class TicketService {
                              String origin, String destination) {
 
         Passenger passenger = passengerDAO.findPassengerById(passengerId);
-        Vehicle vehicle = vehicleDAO.buscarVehiculo(plate);
+        Vehicle vehicle = vehicleDAO.getVehicleByPlate(plate);
 
         if (passenger == null) {
             System.out.println("Passenger not found");
