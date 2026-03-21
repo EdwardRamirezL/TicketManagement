@@ -39,22 +39,24 @@ public class TicketService {
             return;
         }
 
-        long occupiedSeats = ticketDAO.list().stream()
+        ArrayList<Ticket> allTickets = ticketDAO.list();
+
+        long occupiedSeats = allTickets.stream()
                 .filter(t -> t.getVehicle().getPlate().equalsIgnoreCase(plate))
                 .count();
         if (occupiedSeats >= vehicle.getMaxCapacity()) {
-            System.out.println("Vehicle has no available seats (capacity: " + vehicle.getMaxCapacity() + ")");
+            System.out.println("El vehículo no tiene asientos disponibles (capacidad: " + vehicle.getMaxCapacity() + ").");
             return;
         }
 
         LocalDate today = LocalDate.now();
-        long ticketsToday = ticketDAO.list().stream()
+        long ticketsToday = allTickets.stream()
                 .filter(t -> t.getPassenger().getId().equalsIgnoreCase(passengerId))
                 .filter(t -> t.getDateTime().toLocalDate().equals(today))
                 .count();
 
         if (ticketsToday >= 3) {
-            System.out.println("Purchase rejected: passenger already has " + ticketsToday + " ticket(s) for today.");
+            System.out.println("Venta rechazada: el pasajero ya tiene " + ticketsToday + " ticket(s) para hoy.");
             return;
         }
 
