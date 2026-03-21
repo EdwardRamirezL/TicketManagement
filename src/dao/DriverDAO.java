@@ -37,10 +37,10 @@ public class DriverDAO {
             while((line = br.readLine())!= null){
                 String[] data = line.split(";");
                 Driver driver = new Driver(
-                data[0],
-                data[1],
                 data[2],
-                data[3]
+                data[3],
+                data[0],
+                data[1]
                 );
                 list.add(driver); 
             }
