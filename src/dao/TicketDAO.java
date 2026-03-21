@@ -39,6 +39,23 @@ public class TicketDAO {
         }
     }
 
+    public void rewriteAll(ArrayList<Ticket> tickets) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
+            for (Ticket t : tickets) {
+                bw.write(t.getId() + ";" +
+                        t.getPassenger().getId() + ";" +
+                        t.getVehicle().getPlate() + ";" +
+                        t.getDateTime() + ";" +
+                        t.getOrigin() + ";" +
+                        t.getDestination() + ";" +
+                        t.calculateTotal());
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ArrayList<Ticket> list() {
     ArrayList<Ticket> tickets = new ArrayList<>();
     File f = new File(file);

@@ -11,14 +11,11 @@ package service;
 import dao.TicketDAO;
 import dao.PassengerDAO;
 import dao.VehicleDAO;
-import java.io.BufferedWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.Ticket;
 import model.Passenger;
 import model.Vehicle;
-
-import java.util.List;
 
 public class TicketService {
     private TicketDAO ticketDAO = new TicketDAO();
@@ -115,14 +112,7 @@ public class TicketService {
         }
 
         if (found) {
-            try (BufferedWriter bw = new BufferedWriter(new java.io.FileWriter("tickets.txt"))) {
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            for (Ticket t : updatedTickets) {
-                ticketDAO.save(t);
-            }
+            ticketDAO.rewriteAll(updatedTickets);
             System.out.println("Ticket deleted successfully");
             return true;
         } else {
@@ -143,14 +133,10 @@ public class TicketService {
         }
 
         if (found) {
-            try (BufferedWriter bw = new BufferedWriter(new java.io.FileWriter("tickets.txt"))) {
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            ArrayList<Ticket> updated = new ArrayList<>();
             for (Ticket t : tickets) {
                 if (t.getId() == ticketId) {
-                    ticketDAO.save(new Ticket(
+                    updated.add(new Ticket(
                             t.getId(),
                             t.getPassenger(),
                             t.getVehicle(),
@@ -159,9 +145,10 @@ public class TicketService {
                             newDestination
                     ));
                 } else {
-                    ticketDAO.save(t);
+                    updated.add(t);
                 }
             }
+            ticketDAO.rewriteAll(updated);
             System.out.println("Ticket updated successfully");
             return true;
         } else {
