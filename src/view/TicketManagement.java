@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class TicketManagement {
 
     private static final Scanner scanner = new Scanner(System.in);
-    private static final VehiculoService vehicleService = new VehiculoService();
+    private static final VehicleService vehicleService = new VehicleService();
     private static final PassengerService passengerService = new PassengerService();
     private static final DriverService driverService = new DriverService();
     private static final TicketService ticketService = new TicketService();
@@ -59,7 +59,7 @@ public class TicketManagement {
             option = readInt();
             switch (option) {
                 case 1 -> registerVehicle();
-                case 2 -> vehicleService.listarVehiculos();
+                case 2 -> vehicleService.listVehicles();
                 case 3 -> searchVehicle();
                 case 0 -> {}
                 default -> System.out.println("Opción inválida.");
@@ -91,13 +91,13 @@ public class TicketManagement {
             System.out.println("Tipo de vehículo inválido.");
             return;
         }
-        vehicleService.registrarVehiculo(vehicle);
+        vehicleService.registerVehicle(vehicle);
     }
 
     private static void searchVehicle() {
         System.out.print("  Placa: ");
         String plate = scanner.nextLine().trim().toUpperCase();
-        Vehicle v = vehicleService.buscarVehiculo(plate);
+        Vehicle v = vehicleService.findVehicle(plate);
         if (v != null) {
             v.printDetails();
         } else {
