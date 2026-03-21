@@ -27,6 +27,7 @@ import java.io.IOException;
 public class VehicleDAO {
 
     private final String fileName = "vehicles.txt";
+    private RouteDAO routeDAO = new RouteDAO();
 
     public void saveVehicle(Vehicle v){
 
@@ -37,13 +38,13 @@ public class VehicleDAO {
 
             String type = v.getClass().getSimpleName();
 
-            pw.println(v.getPlate() + ";" + v.getRoute() + ";" + type);
+            pw.println(v.getPlate() + ";" + v.getRoute().getCode() + ";" + type);
 
             pw.close();
 
         }catch(IOException e){
 
-            System.out.println("Error saving vehicle");
+            System.out.println("Error guardando el vehiculo");
 
         }
 
@@ -59,14 +60,22 @@ public class VehicleDAO {
             String line;
 
             while((line = br.readLine()) != null){
+                
+                if(line.trim().isEmpty()) continue;
 
                 String[] data = line.split(";");
 
                 String plate = data[0];
-                String route = data[1];
+                String routeCode = data[1];
+                Route route = routeDAO.getRouteByCode(routeCode);
                 String type = data[2];
 
                 Vehicle v = null;
+                
+                if(route == null){
+                    System.out.println("Ruta no encontrada: " + routeCode);
+                    continue;
+                }
 
                 if(type.equals("Buseta"))
                     v = new Buseta(plate, route);
@@ -85,7 +94,7 @@ public class VehicleDAO {
 
         }catch(Exception e){
 
-            System.out.println("Vehicle file not found. It will be created later.");
+            System.out.println("Archivo de vehiculo no encontrado. Se creara mas tarde");
 
         }
 
@@ -104,12 +113,21 @@ public class VehicleDAO {
         String line;
 
         while((line = br.readLine()) != null){
+            
+            if(line.trim().isEmpty()) continue;
 
             String[] data = line.split(";");
 
             String filePlate = data[0];
-            String route = data[1];
+            String routeCode = data[1];
+            Route route = routeDAO.getRouteByCode(routeCode);
             String type = data[2];
+            
+            if(route == null){
+                System.out.println("Ruta no encontrada");
+                return null;
+            }
+            
 
             if(filePlate.equalsIgnoreCase(plate)){
 
@@ -123,6 +141,8 @@ public class VehicleDAO {
 
                 if(type.equals("Bus"))
                     return new Bus(filePlate, route);
+                
+                
 
             }
 

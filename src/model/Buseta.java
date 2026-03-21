@@ -11,7 +11,7 @@ package model;
 
 public class Buseta extends Vehicle {
 
-    public Buseta(String plate, String route) {
+    public Buseta(String plate, Route route) {
 
         super(plate, route);
         this.maxCapacity = 19;

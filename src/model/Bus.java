@@ -12,7 +12,7 @@ package model;
 
 public class Bus extends Vehicle {
 
-    public Bus(String plate, String route) {
+    public Bus(String plate, Route route) {
 
         super(plate, route);
         this.maxCapacity = 45;

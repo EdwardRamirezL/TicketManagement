@@ -12,7 +12,7 @@ package model;
 
 public class MicroBus extends Vehicle {
 
-    public MicroBus(String plate, String route) {
+    public MicroBus(String plate, Route route) {
 
         super(plate, route);
         this.maxCapacity = 25;

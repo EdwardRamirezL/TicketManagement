@@ -12,12 +12,12 @@ package model;
 public abstract class Vehicle implements Printable {
 
     protected String plate;
-    protected String route;
+    protected Route route;
     protected int maxCapacity;
     protected int currentPassengers;
     protected double baseFare;
 
-    public Vehicle(String plate, String route) {
+    public Vehicle(String plate, Route route) {
         this.plate = plate;
         this.route = route;
         this.currentPassengers = 0;
@@ -43,7 +43,7 @@ public abstract class Vehicle implements Printable {
         return plate;
     }
 
-    public String getRoute() {
+    public Route getRoute() {
         return route;
     }
 
