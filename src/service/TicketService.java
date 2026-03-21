@@ -125,17 +125,36 @@ public class TicketService {
     }
     
     public boolean updateTicket(int ticketId, String newDestination) {
-        Ticket ticket = findTicketById(ticketId);
-        if (ticket != null) {
-            Ticket updatedTicket = new Ticket(
-                    ticket.getId(),
-                    ticket.getPassenger(),
-                    ticket.getVehicle(),
-                    ticket.getDateTime(),
-                    ticket.getOrigin(),
-                    newDestination
-            );
-            ticketDAO.save(updatedTicket); 
+        ArrayList<Ticket> tickets = ticketDAO.list();
+        boolean found = false;
+
+        for (Ticket t : tickets) {
+            if (t.getId() == ticketId) {
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            try (BufferedWriter bw = new BufferedWriter(new java.io.FileWriter("tickets.txt"))) {
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            for (Ticket t : tickets) {
+                if (t.getId() == ticketId) {
+                    ticketDAO.save(new Ticket(
+                            t.getId(),
+                            t.getPassenger(),
+                            t.getVehicle(),
+                            t.getDateTime(),
+                            t.getOrigin(),
+                            newDestination
+                    ));
+                } else {
+                    ticketDAO.save(t);
+                }
+            }
             System.out.println("Ticket updated successfully");
             return true;
         } else {
