@@ -32,6 +32,8 @@ public class DriverDAO {
     
     public List<Driver> getAllDrivers(){
         List<Driver> list = new ArrayList<>();
+        File f = new File(file);
+        if (!f.exists() || f.length() == 0) return list;
         try(BufferedReader br = new BufferedReader(new FileReader(file))){
             String line; 
             while((line = br.readLine())!= null){
