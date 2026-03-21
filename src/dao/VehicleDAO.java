@@ -70,21 +70,23 @@ public class VehicleDAO {
                 Route route = routeDAO.getRouteByCode(routeCode);
                 String type = data[2];
 
-                Vehicle v = null;
-                
                 if(route == null){
                     System.out.println("Ruta no encontrada: " + routeCode);
                     continue;
                 }
 
+                Vehicle v;
+
                 if(type.equals("Buseta"))
                     v = new Buseta(plate, route);
-
-                if(type.equals("MicroBus"))
+                else if(type.equals("MicroBus"))
                     v = new MicroBus(plate, route);
-
-                if(type.equals("Bus"))
+                else if(type.equals("Bus"))
                     v = new Bus(plate, route);
+                else {
+                    System.out.println("Tipo de vehiculo desconocido: " + type);
+                    continue;
+                }
 
                 list.add(v);
 
