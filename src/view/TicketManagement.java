@@ -105,5 +105,57 @@ public class TicketManagement {
         }
     }
 
+    private static void menuDrivers() {
+        int option;
+        do {
+            System.out.println("\n--- GESTIÓN DE CONDUCTORES ---");
+            System.out.println("1. Registrar conductor");
+            System.out.println("2. Listar conductores");
+            System.out.println("0. Volver");
+            System.out.print("Opción: ");
+            option = readInt();
+            switch (option) {
+                case 1 -> registerDriver();
+                case 2 -> listDrivers();
+                case 0 -> {}
+                default -> System.out.println("Opción inválida.");
+            }
+        } while (option != 0);
+    }
+
+    private static void registerDriver() {
+        System.out.print("  Cédula: ");
+        String id = scanner.nextLine().trim();
+        System.out.print("  Nombre: ");
+        String name = scanner.nextLine().trim();
+        System.out.print("  Número de licencia: ");
+        String licenseNumber = scanner.nextLine().trim();
+        System.out.print("  Categoría (B1, B2, C1, C2): ");
+        String category = scanner.nextLine().trim().toUpperCase();
+
+        if (!category.matches("B1|B2|C1|C2")) {
+            System.out.println("Categoría inválida. Debe ser B1, B2, C1 o C2.");
+            return;
+        }
+
+        Driver driver = new Driver(licenseNumber, category, id, name);
+        driverService.registerDriver(driver);
+    }
+
+    private static void listDrivers() {
+        var drivers = driverService.getAllDrivers();
+        if (drivers.isEmpty()) {
+            System.out.println("No hay conductores registrados.");
+            return;
+        }
+        System.out.println("\n--- CONDUCTORES REGISTRADOS ---");
+        for (var d : drivers) {
+            System.out.println("  Cédula: " + d.getId()
+                    + " | Nombre: " + d.getName()
+                    + " | Licencia: " + d.getLicenseNumber()
+                    + " | Categoría: " + d.getLicenseCategory());
+        }
+    }
+
 
 }
