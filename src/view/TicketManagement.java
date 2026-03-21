@@ -202,7 +202,13 @@ public class TicketManagement {
         System.out.print("  Nombre: ");
         String name = scanner.nextLine().trim();
         System.out.print("  Fecha de nacimiento (YYYY-MM-DD): ");
-        LocalDate birthDate = LocalDate.parse(scanner.nextLine());
+        LocalDate birthDate;
+        try {
+            birthDate = LocalDate.parse(scanner.nextLine().trim());
+        } catch (Exception e) {
+            System.out.println("Fecha inválida. Use el formato YYYY-MM-DD (ej: 1990-05-21).");
+            return;
+        }
 
         System.out.print("  ¿Es estudiante? (true/false): ");
         boolean isStudent = Boolean.parseBoolean(scanner.nextLine());
@@ -279,10 +285,22 @@ public class TicketManagement {
     String destination = scanner.nextLine().trim();
 
     System.out.print("  Distancia (km): ");
-    double distance = Double.parseDouble(scanner.nextLine().trim());
+    double distance;
+    try {
+        distance = Double.parseDouble(scanner.nextLine().trim());
+    } catch (NumberFormatException e) {
+        System.out.println("Distancia inválida. Ingrese un número (ej: 125.5).");
+        return;
+    }
 
     System.out.print("  Tiempo estimado (min): ");
-    int time = Integer.parseInt(scanner.nextLine().trim());
+    int time;
+    try {
+        time = Integer.parseInt(scanner.nextLine().trim());
+    } catch (NumberFormatException e) {
+        System.out.println("Tiempo inválido. Ingrese un número entero (ej: 90).");
+        return;
+    }
 
     Route route = new Route(code, origin, destination, distance, time);
 
