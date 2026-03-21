@@ -11,6 +11,7 @@ package service;
 import dao.TicketDAO;
 import dao.PassengerDAO;
 import dao.VehicleDAO;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import model.Ticket;
@@ -22,7 +23,7 @@ public class TicketService {
     private PassengerDAO passengerDAO = new PassengerDAO(); 
     private VehicleDAO vehicleDAO = new VehicleDAO(); 
     
-     public void createTicket(String passengerId, String plate,
+      public void createTicket(String passengerId, String plate,
                              String origin, String destination) {
 
         Passenger passenger = passengerDAO.findPassengerById(passengerId);
@@ -46,10 +47,21 @@ public class TicketService {
             return;
         }
 
+        LocalDate today = LocalDate.now();
+        long ticketsToday = ticketDAO.list().stream()
+                .filter(t -> t.getPassenger().getId().equalsIgnoreCase(passengerId))
+                .filter(t -> t.getDateTime().toLocalDate().equals(today))
+                .count();
+
+        if (ticketsToday >= 3) {
+            System.out.println("Purchase rejected: passenger already has " + ticketsToday + " ticket(s) for today.");
+            return;
+        }
+
         int ticketId = getNextId();
 
         Ticket ticket = new Ticket(
-                ticketId,         
+                ticketId,
                 passenger,
                 vehicle,
                 LocalDateTime.now(),
@@ -58,7 +70,6 @@ public class TicketService {
         );
 
         ticketDAO.save(ticket);
-
         System.out.println("Ticket created successfully with ID: " + ticketId);
     }
 
