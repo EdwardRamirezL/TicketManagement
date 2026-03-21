@@ -1,3 +1,0 @@
-0000;llll;RegularPassenger
-72073803;dimas;SeniorPassenger
-1;22222;StudentPassenger

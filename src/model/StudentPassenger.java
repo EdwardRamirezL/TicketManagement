@@ -4,15 +4,21 @@
  */
 package model;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author dimas
  */
 public class StudentPassenger extends Passenger {
 
-    public StudentPassenger(String id, String name) {
-        super(id, name);
+    public StudentPassenger(String id, String name, LocalDate birthDate) {
+        super(id, name, birthDate);
     }
+
+ 
+
+    
 
     @Override
     public double calculateDiscount() {

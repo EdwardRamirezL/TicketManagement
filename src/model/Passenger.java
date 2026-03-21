@@ -19,6 +19,10 @@ public abstract class Passenger extends Person {
         this.birthDate = birthDate;
     }
     
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+    
     public boolean isSenior(){
 
         int age = Period.between(birthDate, LocalDate.now()).getYears();

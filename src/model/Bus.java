@@ -20,16 +20,16 @@ public class Bus extends Vehicle {
 
     }
 
-    @Override
+        @Override
     public void printDetails() {
 
-        System.out.println("Type: Bus");
-        System.out.println("Plate: " + plate);
+        System.out.println("Tipo: Bus");
+        System.out.println("Placa: " + plate);
         System.out.println("Route: " + route);
-        System.out.println("Capacity: " + maxCapacity);
-        System.out.println("Available seats: " + availableSeats());
-        System.out.println("Fare: $" + baseFare);
-
+        System.out.println("Capacidad: " + maxCapacity);
+        System.out.println("Puestos Disponibles: " + availableSeats());
+        System.out.println("Tarifa: $" + baseFare);
     }
+    
 
 }

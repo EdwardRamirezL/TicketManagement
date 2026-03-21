@@ -1,6 +1,7 @@
 package view;
 
 
+import java.time.LocalDate;
 import model.Route;
 import service.RouteService;
 import model.*;
@@ -182,30 +183,21 @@ public class TicketManagement {
         } while (option != 0);
     }
 
+    //hola yo modifique esto aqui att: dev 1
+    
     private static void registerPassenger() {
         System.out.print("  Cédula: ");
         String id = scanner.nextLine().trim();
         System.out.print("  Nombre: ");
         String name = scanner.nextLine().trim();
-        System.out.println("  Tipo de pasajero:");
-        System.out.println("  1. Regular      (sin descuento)");
-        System.out.println("  2. Estudiante   (15% de descuento)");
-        System.out.println("  3. Adulto Mayor (30% de descuento)");
-        System.out.print("  Tipo: ");
-        int type = readInt();
+        System.out.print("  Fecha de nacimiento (YYYY-MM-DD): ");
+        LocalDate birthDate = LocalDate.parse(scanner.nextLine());
 
-        Passenger passenger = switch (type) {
-            case 1 -> new RegularPassenger(id, name);
-            case 2 -> new StudentPassenger(id, name);
-            case 3 -> new SeniorPassenger(id, name);
-            default -> null;
-        };
+        System.out.print("  ¿Es estudiante? (true/false): ");
+        boolean isStudent = Boolean.parseBoolean(scanner.nextLine());
 
-        if (passenger == null) {
-            System.out.println("Tipo de pasajero inválido.");
-            return;
-        }
-        passengerService.registeredPassenger(passenger);
+        passengerService.registerPassenger(id, name, birthDate, isStudent);
+
     }
 
     private static void listPassengers() {
