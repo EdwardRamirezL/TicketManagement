@@ -12,56 +12,56 @@ package service;
 
 import dao.VehicleDAO;
 import model.Vehicle;
-
 import java.util.ArrayList;
 
-public class VehiculoService {
+
+public class VehicleService {
 
     private VehicleDAO dao = new VehicleDAO();
-    private ArrayList<Vehicle> listaVehiculos;
+    private ArrayList<Vehicle> vehicleList;
 
-    public VehiculoService() {
+    public VehicleService() {
 
-        listaVehiculos = dao.cargarVehiculos();
+        vehicleList = dao.loadVehicles();
 
     }
 
-    public void registrarVehiculo(Vehicle v){
+    public void registerVehicle(Vehicle v){
 
-        for(Vehicle veh : listaVehiculos){
+        for(Vehicle vehicle : vehicleList){
 
-            if(veh.getPlaca().equalsIgnoreCase(v.getPlaca())){
+            if(vehicle.getPlate().equalsIgnoreCase(v.getPlate())){
 
-                System.out.println("ERROR: ya existe un vehículo con esa placa");
+                System.out.println("ERROR: A vehicle with this plate already exists");
                 return;
 
             }
 
         }
 
-        listaVehiculos.add(v);
-        dao.guardarVehiculo(v);
+        vehicleList.add(v);
+        dao.saveVehicle(v);
 
-        System.out.println("Vehículo registrado correctamente");
+        System.out.println("Vehicle registered successfully");
 
     }
 
-    public void listarVehiculos(){
+    public void listVehicles(){
 
-        for(Vehicle v : listaVehiculos){
+        for(Vehicle v : vehicleList){
 
-            v.imprimirDetalle();
-            System.out.println("------------------------");
+            v.printDetails();
+            System.out.println("-------------------------");
 
         }
 
     }
 
-    public Vehicle buscarVehiculo(String placa){ 
+    public Vehicle findVehicle(String plate){
 
-        for(Vehicle v : listaVehiculos){
+        for(Vehicle v : vehicleList){
 
-            if(v.getPlaca().equalsIgnoreCase(placa))
+            if(v.getPlate().equalsIgnoreCase(plate))
                 return v;
 
         }
@@ -71,4 +71,5 @@ public class VehiculoService {
     }
 
 }
+
 
