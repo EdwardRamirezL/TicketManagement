@@ -326,4 +326,50 @@ public class TicketManagement {
                 total, tickets.size());
     }
 
+    private static void showPassengersByType() {
+        ArrayList<Ticket> tickets = ticketService.getAllTickets();
+        Map<String, Integer> count = new HashMap<>();
+        for (Ticket t : tickets) {
+            String type = t.getPassenger().getClass().getSimpleName();
+            count.put(type, count.getOrDefault(type, 0) + 1);
+        }
+        System.out.println("\n  Pasajeros por tipo:");
+        if (count.isEmpty()) {
+            System.out.println("  No hay ventas registradas.");
+        } else {
+            count.forEach((type, amount) ->
+                    System.out.println("  " + type + ": " + amount));
+        }
+    }
+
+    private static void showTopVehicle() {
+        ArrayList<Ticket> tickets = ticketService.getAllTickets();
+        Map<String, Integer> count = new HashMap<>();
+        for (Ticket t : tickets) {
+            String plate = t.getVehicle().getPlate();
+            count.put(plate, count.getOrDefault(plate, 0) + 1);
+        }
+        if (count.isEmpty()) {
+            System.out.println("  No hay ventas registradas.");
+            return;
+        }
+        String topPlate = null;
+        int max = 0;
+        for (Map.Entry<String, Integer> entry : count.entrySet()) {
+            if (entry.getValue() > max) {
+                max = entry.getValue();
+                topPlate = entry.getKey();
+            }
+        }
+        System.out.println("\n  Vehículo con más tickets vendidos:");
+        System.out.println("  Placa: " + topPlate + " | Tickets: " + max);
+    }
+
+    private static int readInt() {
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
 }
