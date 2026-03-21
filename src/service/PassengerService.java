@@ -18,13 +18,13 @@ public class PassengerService {
     private PassengerDAO dao = new PassengerDAO(); 
     
     public void registeredPassenger(Passenger passenger){
-        if(dao.findPassengerById(passenger.getId())!= null){
-            dao.save(passenger); 
-            System.out.println("Passenger registered Successfully");
-        }else{
-            System.out.println("Passenger already exists");
-        }
+    if(dao.findPassengerById(passenger.getId()) == null){
+        dao.save(passenger); 
+        System.out.println("Passenger registered Successfully");
+    }else{
+        System.out.println("Passenger already exists");
     }
+}
     
     public ArrayList<Passenger> getAllPassengers() {
         return dao.list();
