@@ -44,16 +44,21 @@ public class PassengerDAO {
 
     public ArrayList<Passenger> list() {
         ArrayList<Passenger> passengers = new ArrayList<>();
+        File f = new File(file);
+        if (!f.exists()) return passengers;
+
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                if(line.trim().isEmpty()) continue;
+                if (line.trim().isEmpty()) continue;
                 String[] data = line.split(";");
-                
+
+                if (data.length < 3) continue;
+
                 String id = data[0];
                 String name = data[1];
                 String type = data[2];
-                if (data.length < 3) continue;
+
                 switch (type) {
                     case "RegularPassenger":
                         passengers.add(new RegularPassenger(id, name));
