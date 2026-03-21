@@ -1,5 +1,8 @@
 package view;
 
+
+import model.Route;
+import service.RouteService;
 import model.*;
 import service.*;
 import java.util.ArrayList;
@@ -24,8 +27,10 @@ public class TicketManagement {
                 case 1 -> menuVehicles();
                 case 2 -> menuDrivers();
                 case 3 -> menuPassengers();
-                case 4 -> menuTickets();
-                case 5 -> menuStatistics();
+                case 4 -> menuRoutes();      // NUEVO RAAAAH *aguila power*
+                case 5 -> menuTickets();
+                case 6 -> menuStatistics();
+
                 case 0 -> System.out.println("Saliendo del sistema. ¡Hasta pronto!");
                 default -> System.out.println("Opción inválida. Intente de nuevo.");
             }
@@ -40,9 +45,10 @@ public class TicketManagement {
         System.out.println("║  1. Gestión de Vehículos               ║");
         System.out.println("║  2. Gestión de Conductores             ║");
         System.out.println("║  3. Gestión de Pasajeros               ║");
-        System.out.println("║  4. Venta de Tickets                   ║");
-        System.out.println("║  5. Consultas y Estadísticas           ║");
-        System.out.println("║  0. Salir                              ║");
+        System.out.println("║  4. Gestión de Rutas                   ║"); // 🔥 NUEVO
+        System.out.println("║  5. Venta de Tickets                   ║");
+        System.out.println("║  6. Consultas y Estadísticas           ║");
+        System.out.println("║  0. Salir                              ║");;
         System.out.println("╚════════════════════════════════════════╝");
         System.out.print("Seleccione una opción: ");
     }
@@ -230,6 +236,62 @@ public class TicketManagement {
             System.out.println("No se encontró ningún pasajero con esa cédula.");
         }
     }
+
+//hola bros aqui esta el menu de rutas jasjas pinches dormilones
+    
+    private static void menuRoutes() {
+
+    RouteService routeService = new RouteService();
+
+    int option;
+    do {
+        System.out.println("\n--- GESTIÓN DE RUTAS ---");
+        System.out.println("1. Registrar ruta");
+        System.out.println("2. Listar rutas");
+        System.out.println("0. Volver");
+        System.out.print("Opción: ");
+        option = readInt();
+
+        switch (option) {
+
+            case 1 -> registerRoute(routeService);
+            case 2 -> routeService.listRoutes();
+            case 0 -> {}
+
+            default -> System.out.println("Opción inválida.");
+        }
+
+    } while (option != 0);
+    
+    }
+    
+    
+    private static void registerRoute(RouteService routeService){
+
+    System.out.print("  Código de ruta: ");
+    String code = scanner.nextLine().trim().toUpperCase();
+
+    System.out.print("  Ciudad origen: ");
+    String origin = scanner.nextLine().trim();
+
+    System.out.print("  Ciudad destino: ");
+    String destination = scanner.nextLine().trim();
+
+    System.out.print("  Distancia (km): ");
+    double distance = Double.parseDouble(scanner.nextLine().trim());
+
+    System.out.print("  Tiempo estimado (min): ");
+    int time = Integer.parseInt(scanner.nextLine().trim());
+
+    Route route = new Route(code, origin, destination, distance, time);
+
+    routeService.registerRoute(route);
+}
+
+    
+ //qui acaba mi fokin menu
+    
+    
 
     private static void menuTickets() {
         int option;

@@ -71,7 +71,22 @@ public class RouteService {
 }
 
     
-    
+public void registerRoute(Route r){
+
+    for(Route route : routes){
+
+        if(route.getCode().equalsIgnoreCase(r.getCode())){
+            System.out.println("ERROR: Route already exists");
+            return;
+        }
+
+    }
+
+    routes.add(r);
+    dao.saveRoute(r);
+
+    System.out.println("Route registered successfully");
+}    
     
     
 }

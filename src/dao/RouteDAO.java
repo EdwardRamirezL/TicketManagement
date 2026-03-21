@@ -17,6 +17,34 @@ import java.util.ArrayList;
 public class RouteDAO {
 
     private final String fileName = "routes.txt";
+    
+    public void saveRoute(Route r){
+
+    try{
+
+        FileWriter fw = new FileWriter(fileName, true);
+        PrintWriter pw = new PrintWriter(fw);
+
+        pw.println(
+            r.getCode() + ";" +
+            r.getOrigin() + ";" +
+            r.getDestination() + ";" +
+            r.getDistance() + ";" +
+            r.getTime()
+        );
+
+        pw.close();
+
+    }catch(IOException e){
+
+        System.out.println("Error saving route");
+
+    }
+
+}
+
+    
+    
 
     public ArrayList<Route> loadRoutes(){
 
