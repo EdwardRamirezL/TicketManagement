@@ -93,6 +93,7 @@ public class VehicleDAO {
 
     }
 
+
     
     
     public Vehicle getVehicleByPlate(String plate){
@@ -131,13 +132,14 @@ public class VehicleDAO {
 
     }catch(IOException e){
 
-        System.out.println("Error reading vehicle file");
+        System.out.println("Error al leer el archivo");
 
     }
 
-    return null; // si no lo encuentra
+    return null; 
 }
 
     
     
+
 }
