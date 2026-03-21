@@ -43,39 +43,39 @@ public class PassengerDAO {
     }
 
     public ArrayList<Passenger> list() {
-        ArrayList<Passenger> passengers = new ArrayList<>();
-        File f = new File(file);
-        if (!f.exists()) return passengers;
+    ArrayList<Passenger> passengers = new ArrayList<>();
+    File f = new File(file);
+    if (!f.exists() || f.length() == 0) return passengers;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.trim().isEmpty()) continue;
-                String[] data = line.split(";");
+    try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            if (line.trim().isEmpty()) continue;
+            String[] data = line.split(";");
 
-                if (data.length < 3) continue;
+            if (data.length < 3) continue;
 
-                String id = data[0];
-                String name = data[1];
-                String type = data[2];
+            String id = data[0];
+            String name = data[1];
+            String type = data[2];
 
-                switch (type) {
-                    case "RegularPassenger":
-                        passengers.add(new RegularPassenger(id, name));
-                        break;
-                    case "StudentPassenger":
-                        passengers.add(new StudentPassenger(id, name));
-                        break;
-                    case "SeniorPassenger":
-                        passengers.add(new SeniorPassenger(id, name));
-                        break;
-                }
+            switch (type) {
+                case "RegularPassenger":
+                    passengers.add(new RegularPassenger(id, name));
+                    break;
+                case "StudentPassenger":
+                    passengers.add(new StudentPassenger(id, name));
+                    break;
+                case "SeniorPassenger":
+                    passengers.add(new SeniorPassenger(id, name));
+                    break;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return passengers;
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+    return passengers;
+}
     
    public Passenger findPassengerById(String id) {
         for (Passenger p : list()) {
