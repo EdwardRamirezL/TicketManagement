@@ -157,5 +157,80 @@ public class TicketManagement {
         }
     }
 
+    private static void menuPassengers() {
+        int option;
+        do {
+            System.out.println("\n--- GESTIÓN DE PASAJEROS ---");
+            System.out.println("1. Registrar pasajero");
+            System.out.println("2. Listar pasajeros");
+            System.out.println("3. Buscar pasajero por cédula");
+            System.out.println("0. Volver");
+            System.out.print("Opción: ");
+            option = readInt();
+            switch (option) {
+                case 1 -> registerPassenger();
+                case 2 -> listPassengers();
+                case 3 -> searchPassenger();
+                case 0 -> {}
+                default -> System.out.println("Opción inválida.");
+            }
+        } while (option != 0);
+    }
+
+    private static void registerPassenger() {
+        System.out.print("  Cédula: ");
+        String id = scanner.nextLine().trim();
+        System.out.print("  Nombre: ");
+        String name = scanner.nextLine().trim();
+        System.out.println("  Tipo de pasajero:");
+        System.out.println("  1. Regular      (sin descuento)");
+        System.out.println("  2. Estudiante   (15% de descuento)");
+        System.out.println("  3. Adulto Mayor (30% de descuento)");
+        System.out.print("  Tipo: ");
+        int type = readInt();
+
+        Passenger passenger = switch (type) {
+            case 1 -> new RegularPassenger(id, name);
+            case 2 -> new StudentPassenger(id, name);
+            case 3 -> new SeniorPassenger(id, name);
+            default -> null;
+        };
+
+        if (passenger == null) {
+            System.out.println("Tipo de pasajero inválido.");
+            return;
+        }
+        passengerService.registeredPassenger(passenger);
+    }
+
+    private static void listPassengers() {
+        var passengers = passengerService.getAllPassengers();
+        if (passengers.isEmpty()) {
+            System.out.println("No hay pasajeros registrados.");
+            return;
+        }
+        System.out.println("\n--- PASAJEROS REGISTRADOS ---");
+        for (var p : passengers) {
+            System.out.println("  Cédula: " + p.getId()
+                    + " | Nombre: " + p.getName()
+                    + " | Tipo: " + p.getClass().getSimpleName()
+                    + " | Descuento: " + (int) (p.calculateDiscount() * 100) + "%");
+        }
+    }
+
+    private static void searchPassenger() {
+        System.out.print("  Cédula: ");
+        String id = scanner.nextLine().trim();
+        Passenger p = passengerService.findPassenger(id);
+        if (p != null) {
+            System.out.println("  Cédula: " + p.getId()
+                    + " | Nombre: " + p.getName()
+                    + " | Tipo: " + p.getClass().getSimpleName()
+                    + " | Descuento: " + (int) (p.calculateDiscount() * 100) + "%");
+        } else {
+            System.out.println("No se encontró ningún pasajero con esa cédula.");
+        }
+    }
+
 
 }
