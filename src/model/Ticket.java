@@ -17,6 +17,7 @@ public class Ticket implements Printable, Calculable {
     private LocalDateTime dateTime;
     private String origin;
     private String destination;
+    private double total;
 
     public Ticket(int id, Passenger passenger, Vehicle vehicle, LocalDateTime dateTime, String origin, String destination) {
         this.id = id;
@@ -25,6 +26,17 @@ public class Ticket implements Printable, Calculable {
         this.dateTime = dateTime;
         this.origin = origin;
         this.destination = destination;
+        this.total = vehicle.getBaseFare() * (1 - passenger.calculateDiscount());
+    }
+
+    public Ticket(int id, Passenger passenger, Vehicle vehicle, LocalDateTime dateTime, String origin, String destination, double total) {
+        this.id = id;
+        this.passenger = passenger;
+        this.vehicle = vehicle;
+        this.dateTime = dateTime;
+        this.origin = origin;
+        this.destination = destination;
+        this.total = total;
     }
 
     public int getId() {
