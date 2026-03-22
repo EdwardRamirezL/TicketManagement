@@ -8,6 +8,7 @@ import dao.PassengerDAO;
 import dao.ReserveDAO;
 import dao.TicketDAO;
 import dao.VehicleDAO;
+import java.time.LocalDate;
 import java.time.MonthDay;
 import java.util.Arrays;
 import java.util.List;
@@ -30,5 +31,9 @@ public class ReserveService {
         MonthDay.of(12, 8),
         MonthDay.of(12, 25)
     );
+     
+     private boolean isFestivo(LocalDate date){
+         return FESTIVOS.contains(MonthDay.of(date.getMonth(), date.getDayOfMonth()));
+     }
     
 }
