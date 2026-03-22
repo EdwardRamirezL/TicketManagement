@@ -35,5 +35,17 @@ public class ReserveService {
      private boolean isFestivo(LocalDate date){
          return FESTIVOS.contains(MonthDay.of(date.getMonth(), date.getDayOfMonth()));
      }
+     
+     private long getOccupiedSeats(String plate) {
+        long tickets = ticketDAO.list().stream()
+                .filter(t -> t.getVehicle().getPlate().equalsIgnoreCase(plate))
+                .count();
+ 
+        long activeReserves = reserveDAO.getActiveReservations().stream()
+                .filter(r -> r.getVehicle().getPlate().equalsIgnoreCase(plate))
+                .count();
+ 
+        return tickets + activeReserves;
+    }
     
 }
