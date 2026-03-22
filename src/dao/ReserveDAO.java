@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import model.Passenger;
-import model.Reserva;
+import model.Reserve;
 import model.ReservationStatus;
 import model.Vehicle;
 
@@ -20,7 +20,7 @@ public class ReserveDAO {
     private VehicleDAO vehicleDAO = new VehicleDAO();
 
 
-    public void save(Reserva r) {
+    public void save(Reserve r) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             bw.write(serialize(r));
             bw.newLine();
@@ -29,9 +29,9 @@ public class ReserveDAO {
         }
     }
 
-    public void rewriteAll(ArrayList<Reserva> reservas) {
+    public void rewriteAll(ArrayList<Reserve> reservas) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))) {
-            for (Reserva r : reservas) {
+            for (Reserve r : reservas) {
                 bw.write(serialize(r));
                 bw.newLine();
             }
@@ -40,8 +40,8 @@ public class ReserveDAO {
         }
     }
 
-    public ArrayList<Reserva> list() {
-        ArrayList<Reserva> result = new ArrayList<>();
+    public ArrayList<Reserve> list() {
+        ArrayList<Reserve> result = new ArrayList<>();
         File f = new File(file);
         if (!f.exists() || f.length() == 0) return result;
 
@@ -72,7 +72,7 @@ public class ReserveDAO {
                 Vehicle vehicle = vehicleDAO.getVehicleByPlate(vehiclePlate);
 
                 if (passenger != null && vehicle != null) {
-                    result.add(new Reserva(codigo, passenger, vehicle,
+                    result.add(new Reserve(codigo, passenger, vehicle,
                                            creationDate, travelDate, status));
                 }
             }
@@ -82,8 +82,8 @@ public class ReserveDAO {
         return result;
     }
 
-    public Reserva findByCodigo(String codigo) {
-        for (Reserva r : list()) {
+    public Reserve findByCodigo(String codigo) {
+        for (Reserve r : list()) {
             if (r.getCodigo().equalsIgnoreCase(codigo)) {
                 return r;
             }
@@ -91,9 +91,9 @@ public class ReserveDAO {
         return null;
     }
 
-    public ArrayList<Reserva> getActiveReservations() {
-        ArrayList<Reserva> activas = new ArrayList<>();
-        for (Reserva r : list()) {
+    public ArrayList<Reserve> getActiveReservations() {
+        ArrayList<Reserve> activas = new ArrayList<>();
+        for (Reserve r : list()) {
             if (r.getStatus() == ReservationStatus.ACTIVA) {
                 activas.add(r);
             }
@@ -101,9 +101,9 @@ public class ReserveDAO {
         return activas;
     }
 
-    public ArrayList<Reserva> getByPassenger(String passengerId) {
-        ArrayList<Reserva> history = new ArrayList<>();
-        for (Reserva r : list()) {
+    public ArrayList<Reserve> getByPassenger(String passengerId) {
+        ArrayList<Reserve> history = new ArrayList<>();
+        for (Reserve r : list()) {
             if (r.getPassenger().getId().equalsIgnoreCase(passengerId)) {
                 history.add(r);
             }
@@ -118,9 +118,9 @@ public class ReserveDAO {
      * @return cantidad de reservas canceladas por vencimiento
      */
     public int expireOldReservations() {
-        ArrayList<Reserva> all = list();
+        ArrayList<Reserve> all = list();
         int count = 0;
-        for (Reserva r : all) {
+        for (Reserve r : all) {
             if (r.isExpired()) {
                 r.cancel();
                 count++;
@@ -137,9 +137,9 @@ public class ReserveDAO {
      * donde N es el máximo número existente + 1.
      */
     public String getNextCodigo() {
-        ArrayList<Reserva> all = list();
+        ArrayList<Reserve> all = list();
         int max = 0;
-        for (Reserva r : all) {
+        for (Reserve r : all) {
             String cod = r.getCodigo();
             if (cod.startsWith("RES-")) {
                 try {
@@ -152,7 +152,7 @@ public class ReserveDAO {
         return "RES-" + (max + 1);
     }
 
-    private String serialize(Reserva r) {
+    private String serialize(Reserve r) {
         return r.getCodigo() + ";" +
                r.getPassenger().getId() + ";" +
                r.getVehicle().getPlate() + ";" +
