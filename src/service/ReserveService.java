@@ -238,6 +238,15 @@ public class ReserveService {
         System.out.println("Reservation " + codigo
                 + " converted to ticket ID: " + ticketId + " successfully.");
     }
+    
+    public void checkExpiredReserves() {
+        int cancelled = reserveDAO.expireOldReservations();
+        if (cancelled == 0) {
+            System.out.println("No expired reservations found.");
+        } else {
+            System.out.println(cancelled + " expired reservation(s) were automatically cancelled.");
+        }
+    }
      
     
 }
