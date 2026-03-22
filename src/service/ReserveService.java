@@ -141,6 +141,28 @@ public class ReserveService {
             r.printDetails();
         }
     }
+      
+      public void listPassengerHistory(String passengerId) {
+ 
+        Passenger passenger = passengerDAO.findPassengerById(passengerId);
+        if (passenger == null) {
+            System.out.println("Error: passenger not found.");
+            return;
+        }
+ 
+        ArrayList<Reserve> history = reserveDAO.getByPassenger(passengerId);
+ 
+        if (history.isEmpty()) {
+            System.out.println("No reservations found for passenger " + passengerId + ".");
+            return;
+        }
+ 
+        System.out.println("===== RESERVATION HISTORY — "
+                + passenger.getName() + " =====");
+        for (Reserve r : history) {
+            r.printDetails();
+        }
+    }
      
     
 }
