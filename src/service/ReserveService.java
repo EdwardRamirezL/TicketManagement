@@ -11,9 +11,11 @@ import dao.VehicleDAO;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.MonthDay;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import model.Passenger;
+import model.ReservationStatus;
 import model.Reserve;
 import model.Vehicle;
 
@@ -100,5 +102,30 @@ public class ReserveService {
         reserveDAO.save(reserve);
         System.out.println("Reservation created successfully. Code: " + codigo);
     }
+     
+     public void cancelReserve(String codigo){
+         Reserve reserve = reserveDAO.findByCodigo(codigo);
+         
+         if(reserve == null){
+             System.out.println("Error: reservation not found");
+             return;        
+         }
+         
+         if(reserve.getStatus() != ReservationStatus.ACTIVA){
+             System.out.println("Error: only ACTIVE reservations can be cancelled" + "(current status" + reserve.getStatus() + ")" );
+             return; 
+         }
+         
+         ArrayList<Reserve> all = reserveDAO.list();
+        for (Reserve r : all) {
+            if (r.getCodigo().equalsIgnoreCase(codigo)) {
+                r.cancel();
+                break;
+            }
+        }
+        reserveDAO.rewriteAll(all);
+        System.out.println("Reservation " + codigo + " cancelled successfully.");
+    }
+     
     
 }
