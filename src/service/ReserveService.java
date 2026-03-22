@@ -17,6 +17,7 @@ import java.util.List;
 import model.Passenger;
 import model.ReservationStatus;
 import model.Reserve;
+import model.Ticket;
 import model.Vehicle;
 
 /**
@@ -162,6 +163,80 @@ public class ReserveService {
         for (Reserve r : history) {
             r.printDetails();
         }
+    }
+      
+      
+    public void convertToTicket(String codigo, String origin, String destination) {
+ 
+        Reserve reserve = reserveDAO.findByCodigo(codigo);
+ 
+        if (reserve == null) {
+            System.out.println("Error: reservation not found.");
+            return;
+        }
+ 
+        if (reserve.getStatus() != ReservationStatus.ACTIVA) {
+            System.out.println("Error: only ACTIVE reservations can be converted"
+                    + " (current status: " + reserve.getStatus() + ").");
+            return;
+        }
+ 
+        if (reserve.isExpired()) {
+            
+            ArrayList<Reserve> all = reserveDAO.list();
+            for (Reserve r : all) {
+                if (r.getCodigo().equalsIgnoreCase(codigo)) {
+                    r.cancel();
+                    break;
+                }
+            }
+            reserveDAO.rewriteAll(all);
+            System.out.println("Error: reservation " + codigo
+                    + " has expired and has been automatically cancelled.");
+            return;
+        }
+ 
+        Vehicle vehicle = reserve.getVehicle();
+        Passenger passenger = reserve.getPassenger();
+ 
+        
+        if (isFestivo(reserve.getTravelDate())) {
+            vehicle.setBaseFare(vehicle.getBaseFare() * 1.20);
+            System.out.println("Holiday fare applied: 20% surcharge.");
+        }
+ 
+        
+        ArrayList<Ticket> tickets = ticketDAO.list();
+        int maxId = 0;
+        for (Ticket t : tickets) {
+            if (t.getId() > maxId) maxId = t.getId();
+        }
+        int ticketId = maxId + 1;
+ 
+        
+        Ticket ticket = new Ticket(
+                ticketId,
+                passenger,
+                vehicle,
+                LocalDateTime.now(),
+                origin,
+                destination
+        );
+ 
+        ticketDAO.save(ticket);
+ 
+        
+        ArrayList<Reserve> all = reserveDAO.list();
+        for (Reserve r : all) {
+            if (r.getCodigo().equalsIgnoreCase(codigo)) {
+                r.convert();
+                break;
+            }
+        }
+        reserveDAO.rewriteAll(all);
+ 
+        System.out.println("Reservation " + codigo
+                + " converted to ticket ID: " + ticketId + " successfully.");
     }
      
     
