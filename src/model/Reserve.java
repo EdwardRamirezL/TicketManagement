@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Reserva implements Printable {
+public class Reserve implements Printable {
 
     private String codigo;
     private Passenger passenger;
@@ -12,7 +12,7 @@ public class Reserva implements Printable {
     private LocalDate travelDate;
     private ReservationStatus status;
 
-    public Reserva(String codigo, Passenger passenger, Vehicle vehicle,
+    public Reserve(String codigo, Passenger passenger, Vehicle vehicle,
                    LocalDateTime creationDate, LocalDate travelDate) {
         this.codigo = codigo;
         this.passenger = passenger;
@@ -22,7 +22,7 @@ public class Reserva implements Printable {
         this.status = ReservationStatus.ACTIVA;
     }
 
-    public Reserva(String codigo, Passenger passenger, Vehicle vehicle,
+    public Reserve(String codigo, Passenger passenger, Vehicle vehicle,
                    LocalDateTime creationDate, LocalDate travelDate,
                    ReservationStatus status) {
         this.codigo = codigo;
