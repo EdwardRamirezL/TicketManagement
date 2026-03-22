@@ -19,8 +19,12 @@ public class TicketManagement {
     private static final DriverService driverService = new DriverService();
     private static final TicketService ticketService = new TicketService();
     private static final RouteService routeService = new RouteService();
+    private static final ReserveService reserveService = new ReserveService();
 
     public static void main(String[] args) {
+        System.out.println("Verificando reservas vencidas...");
+        reserveService.checkExpiredReserves();
+
         int option;
         do {
             printMainMenu();
@@ -33,8 +37,9 @@ public class TicketManagement {
                 case 5 -> menuTickets();
                 case 6 -> menuStatistics();
                 case 7 -> menuReports();
+                case 8 -> menuReserves();
 
-                case 0 -> System.out.println("Saliendo del sistema. ¡Hasta pronto!");
+                case 0 -> System.out.println("Saliendo del sistema.");
                 default -> System.out.println("Opción inválida. Intente de nuevo.");
             }
         } while (option != 0);
@@ -52,6 +57,7 @@ public class TicketManagement {
         System.out.println("║  5. Venta de Tickets                   ║");
         System.out.println("║  6. Consultas y Estadísticas           ║");
         System.out.println("║  7. Módulo de Reportes                 ║");
+        System.out.println("║  8. Gestión de Reservas                ║");
         System.out.println("║  0. Salir                              ║");;
         System.out.println("╚════════════════════════════════════════╝");
         System.out.print("Seleccione una opción: ");
@@ -574,6 +580,70 @@ public class TicketManagement {
         System.out.printf ("║  Tickets vendidos hoy : %-14d ║%n", tickets.size());
         System.out.printf ("║  Total recaudado hoy  : $%-13.2f ║%n", totalRevenue);
         System.out.println("╚════════════════════════════════════════╝");
+    }
+
+    private static void menuReserves() {
+        int option;
+        do {
+            System.out.println("\n--- GESTIÓN DE RESERVAS ---");
+            System.out.println("1. Crear una nueva reserva");
+            System.out.println("2. Cancelar una reserva por código");
+            System.out.println("3. Listar todas las reservas activas");
+            System.out.println("4. Historial de reservas de un pasajero");
+            System.out.println("5. Convertir una reserva en ticket");
+            System.out.println("6. Verificar reservas vencidas");
+            System.out.println("0. Volver");
+            System.out.print("Opción: ");
+            option = readInt();
+            switch (option) {
+                case 1 -> createReserve();
+                case 2 -> cancelReserve();
+                case 3 -> reserveService.listActiveReserves();
+                case 4 -> listPassengerReserveHistory();
+                case 5 -> convertReserveToTicket();
+                case 6 -> reserveService.checkExpiredReserves();
+                case 0 -> {}
+                default -> System.out.println("Opción inválida.");
+            }
+        } while (option != 0);
+    }
+
+    private static void createReserve() {
+        System.out.print("  Cédula del pasajero: ");
+        String passengerId = scanner.nextLine().trim();
+        System.out.print("  Placa del vehículo: ");
+        String plate = scanner.nextLine().trim().toUpperCase();
+        System.out.print("  Fecha de viaje (YYYY-MM-DD): ");
+        LocalDate travelDate;
+        try {
+            travelDate = LocalDate.parse(scanner.nextLine().trim());
+        } catch (Exception e) {
+            System.out.println("Fecha inválida. Use el formato YYYY-MM-DD (ej: 2026-04-15).");
+            return;
+        }
+        reserveService.createReserve(passengerId, plate, travelDate);
+    }
+
+    private static void cancelReserve() {
+        System.out.print("  Código de la reserva: ");
+        String codigo = scanner.nextLine().trim().toUpperCase();
+        reserveService.cancelReserve(codigo);
+    }
+
+    private static void listPassengerReserveHistory() {
+        System.out.print("  Cédula del pasajero: ");
+        String passengerId = scanner.nextLine().trim();
+        reserveService.listPassengerHistory(passengerId);
+    }
+
+    private static void convertReserveToTicket() {
+        System.out.print("  Código de la reserva: ");
+        String codigo = scanner.nextLine().trim().toUpperCase();
+        System.out.print("  Origen: ");
+        String origin = scanner.nextLine().trim();
+        System.out.print("  Destino: ");
+        String destination = scanner.nextLine().trim();
+        reserveService.convertToTicket(codigo, origin, destination);
     }
 
     private static int readInt() {
