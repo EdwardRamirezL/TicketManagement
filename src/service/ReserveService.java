@@ -127,5 +127,20 @@ public class ReserveService {
         System.out.println("Reservation " + codigo + " cancelled successfully.");
     }
      
+      public void listActiveReserves() {
+ 
+        ArrayList<Reserve> activas = reserveDAO.getActiveReservations();
+ 
+        if (activas.isEmpty()) {
+            System.out.println("No active reservations found.");
+            return;
+        }
+ 
+        System.out.println("===== ACTIVE RESERVATIONS (" + activas.size() + ") =====");
+        for (Reserve r : activas) {
+            r.printDetails();
+        }
+    }
+     
     
 }
