@@ -10,7 +10,7 @@ import model.Reserva;
 import model.ReservationStatus;
 import model.Vehicle;
 
-public class ReservaDAO {
+public class ReserveDAO {
 
     private final String file = "reservas.txt";
     private final DateTimeFormatter dtFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
